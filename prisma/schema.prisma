@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Category {
+  PAINTING
+  SCULPTURE
+}
+
+model Artwork {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  category    Category
+  medium      String
+  year        Int
+  imageUrl    String
+  description String?
+  colSpan     Int      @default(4)
+  aspectRatio String   @default("1/1")
+  stretch     Boolean  @default(false)
+  published   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published, sortOrder])
+}
