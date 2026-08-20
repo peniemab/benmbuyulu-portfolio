@@ -4,6 +4,7 @@ import type { ArtworkCardData } from "@/lib/artworks";
 import type { Dictionary } from "@/i18n/dictionaries/fr";
 import { WorksGrid } from "@/components/WorksGrid";
 import { BioSection } from "@/components/BioSection";
+import { SectionIndexNav } from "@/components/SectionIndexNav";
 
 type Props = {
   artworks: ArtworkCardData[];
@@ -13,10 +14,9 @@ type Props = {
 export function ArtistPortfolio({ artworks, labels }: Props) {
   return (
     <div className="w-full px-margin-mobile md:px-10 lg:px-14 pt-14 md:pt-16">
+      <SectionIndexNav labels={labels.nav} />
+
       <section id="oeuvres" className="scroll-mt-24 pb-section-gap">
-        <h2 className="font-label-caps text-label-caps text-on-surface-variant mb-8">
-          {labels.nav.works}
-        </h2>
         <WorksGrid artworks={artworks} labels={labels.gallery} />
       </section>
 
@@ -28,14 +28,14 @@ export function ArtistPortfolio({ artworks, labels }: Props) {
       </section>
 
       <section
-        id="expositions"
+        id="in-situ"
         className="scroll-mt-24 border-t border-outline-variant pt-16 pb-section-gap"
       >
         <h2 className="font-label-caps text-label-caps text-on-surface-variant mb-8">
-          {labels.nav.exhibitions}
+          {labels.nav.inSitu}
         </h2>
         <p className="font-body-md text-body-md text-on-surface-variant max-w-xl">
-          {labels.sections.exhibitionsSoon}
+          {labels.sections.inSituSoon}
         </p>
       </section>
 

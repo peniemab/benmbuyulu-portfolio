@@ -4,11 +4,12 @@ import { useId } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/fr";
 import type { Locale } from "@/i18n/config";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
+import { softScrollToHash } from "@/lib/soft-scroll";
 
 export const NAV_ITEMS = [
   { href: "#oeuvres", key: "works" as const },
   { href: "#bio", key: "bio" as const },
-  { href: "#expositions", key: "exhibitions" as const },
+  { href: "#in-situ", key: "inSitu" as const },
   { href: "#publications", key: "publications" as const },
   { href: "#contact", key: "contact" as const },
 ];
@@ -117,7 +118,12 @@ export function SiteMenu({
       {showBrand && (
         <a
           href="#top"
-          onClick={onNavigate}
+          onClick={(event) => {
+            event.preventDefault();
+            softScrollToHash("#top");
+            window.history.pushState(null, "", "#top");
+            onNavigate?.();
+          }}
           className="shrink-0 font-headline-sm text-[1.35rem] md:text-[1.5rem] text-primary tracking-tighter leading-tight uppercase"
         >
           {labels.brand}
@@ -129,7 +135,12 @@ export function SiteMenu({
           <a
             key={key}
             href={href}
-            onClick={onNavigate}
+            onClick={(event) => {
+              event.preventDefault();
+              softScrollToHash(href);
+              window.history.pushState(null, "", href);
+              onNavigate?.();
+            }}
             className="font-body-md text-[15px] leading-snug text-on-surface-variant hover:text-primary transition-colors duration-300"
           >
             {labels.nav[key]}

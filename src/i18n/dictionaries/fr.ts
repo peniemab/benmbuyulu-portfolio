@@ -17,7 +17,7 @@ export const fr = {
   nav: {
     works: "Œuvres",
     bio: "Bio",
-    exhibitions: "Expositions",
+    inSitu: "In situ",
     publications: "Publications",
     contact: "Contact",
   },
@@ -49,7 +49,7 @@ export const fr = {
     born: "Né en 2006 à Kinshasa (RDC).",
   },
   sections: {
-    exhibitionsSoon: "Les expositions seront bientôt listées ici.",
+    inSituSoon: "Les projets in situ seront bientôt listés ici.",
     publicationsSoon: "Les publications seront bientôt listées ici.",
     contactLead: "Pour toute demande :",
   },

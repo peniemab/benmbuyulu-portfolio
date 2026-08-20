@@ -19,7 +19,7 @@ export const en: Dictionary = {
   nav: {
     works: "Works",
     bio: "Bio",
-    exhibitions: "Exhibitions",
+    inSitu: "In situ",
     publications: "Publications",
     contact: "Contact",
   },
@@ -51,7 +51,7 @@ export const en: Dictionary = {
     born: "Born in 2006 in Kinshasa (DRC).",
   },
   sections: {
-    exhibitionsSoon: "Exhibitions will be listed here soon.",
+    inSituSoon: "In situ projects will be listed here soon.",
     publicationsSoon: "Publications will be listed here soon.",
     contactLead: "For inquiries:",
   },
