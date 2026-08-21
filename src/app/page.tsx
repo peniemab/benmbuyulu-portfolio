@@ -49,7 +49,7 @@ export default async function HomePage() {
         <HeroSection
           artistName={dict.brand}
           imageSrc={HERO_IMAGE}
-          imageAlt="Esclaves du sexe — Ben Mbuyulu, peinture, Mystère du voile"
+          imageAlt="Esclaves du sexe : Ben Mbuyulu, peinture, Mystère du voile"
         />
         <main className="flex-grow bg-surface">
           <ArtistPortfolio artworks={artworks} labels={dict} />

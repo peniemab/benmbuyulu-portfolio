@@ -1,4 +1,4 @@
-# Métadonnées œuvres — référence (pas encore toutes affichées)
+# Métadonnées œuvres : référence (pas encore toutes affichées)
 
 Données fournies pour usage ultérieur (catalogue, fiches, admin…).
 

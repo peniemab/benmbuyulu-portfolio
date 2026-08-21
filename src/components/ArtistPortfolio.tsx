@@ -47,10 +47,10 @@ export function ArtistPortfolio({ artworks, labels }: Props) {
           {labels.sections.contactLead}
         </p>
         <a
-          href="mailto:hello@benmbuyulu.com"
+          href="mailto:mbuyuluben@gmail.com"
           className="font-headline-sm text-headline-sm text-primary underline-offset-4 hover:underline"
         >
-          hello@benmbuyulu.com
+          mbuyuluben@gmail.com
         </a>
       </section>
     </div>

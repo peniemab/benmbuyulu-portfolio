@@ -13,7 +13,7 @@ const adapter = new PrismaNeon({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
 /**
- * Desktop mosaic on 12 cols — each row must sum to 12:
+ * Desktop mosaic on 12 cols: each row must sum to 12:
  * 5+7 · 7+5 · 8 (last)
  */
 const artworks = [
@@ -26,7 +26,7 @@ const artworks = [
     dimensions: "1 m",
     imageUrl: "/artworks/mi-femme-mi-ange.png",
     description:
-      "Buste ailé au voile sur les yeux — projet Mystère du voile.",
+      "Buste ailé au voile sur les yeux : projet Mystère du voile.",
     colSpan: 5,
     aspectRatio: "3/4",
     stretch: false,
@@ -42,7 +42,7 @@ const artworks = [
     dimensions: "40 × 60 cm",
     imageUrl: "/artworks/voyage-ame-voile.png",
     description:
-      "Cheval bandé des yeux, cavalier enveloppé de rouge — projet Mystère du voile.",
+      "Cheval bandé des yeux, cavalier enveloppé de rouge : projet Mystère du voile.",
     colSpan: 7,
     aspectRatio: "4/5",
     stretch: false,
@@ -58,7 +58,7 @@ const artworks = [
     dimensions: "1 m",
     imageUrl: "/artworks/sous-le-voile-du-silence.png",
     description:
-      "Sculpture allongée au drapé fluide — projet Mystère du voile.",
+      "Sculpture allongée au drapé fluide : projet Mystère du voile.",
     colSpan: 7,
     aspectRatio: "4/5",
     stretch: false,
@@ -74,7 +74,7 @@ const artworks = [
     dimensions: "40 × 60 cm",
     imageUrl: "/artworks/enigme-du-voile.png",
     description:
-      "Figure masquée au manteau rouge et serpent — projet Mystère du voile.",
+      "Figure masquée au manteau rouge et serpent : projet Mystère du voile.",
     colSpan: 5,
     aspectRatio: "3/4",
     stretch: false,
@@ -90,7 +90,7 @@ const artworks = [
     dimensions: "50 × 70 cm",
     imageUrl: "/artworks/esclaves-du-sexe.png",
     description:
-      "Deux figures voilées — projet Mystère du voile.",
+      "Deux figures voilées : projet Mystère du voile.",
     colSpan: 8,
     aspectRatio: "4/5",
     stretch: false,

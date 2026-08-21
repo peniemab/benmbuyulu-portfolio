@@ -6,7 +6,7 @@ type Props = {
 };
 
 const PORTRAIT_SRC = "/artist/ben-mbuyulu.jpg";
-const PORTRAIT_ALT = "Ben Mbuyulu — portrait";
+const PORTRAIT_ALT = "Ben Mbuyulu : portrait";
 
 /**
  * Mobile: lead → portrait → born + body

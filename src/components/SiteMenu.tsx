@@ -15,16 +15,23 @@ export const NAV_ITEMS = [
 ];
 
 const SOCIALS = [
-  { key: "instagram" as const, href: "https://instagram.com/", label: "Instagram" },
-  { key: "facebook" as const, href: "https://facebook.com/", label: "Facebook" },
-  { key: "youtube" as const, href: "https://youtube.com/", label: "YouTube" },
+  {
+    key: "instagram" as const,
+    href: "https://www.instagram.com/benmbuyulu/",
+    label: "Instagram",
+  },
+  {
+    key: "facebook" as const,
+    href: "https://www.facebook.com/profile.php?id=61589274320031",
+    label: "Facebook",
+  },
 ];
 
 function SocialIcon({
   name,
   gradientId,
 }: {
-  name: "instagram" | "facebook" | "youtube";
+  name: "instagram" | "facebook";
   gradientId: string;
 }) {
   if (name === "instagram") {
@@ -67,12 +74,7 @@ function SocialIcon({
     );
   }
 
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden className="block">
-      <rect x="2" y="5" width="20" height="14" rx="4" fill="#FF0000" />
-      <path d="M10 9v6l5.5-3L10 9z" fill="#fff" />
-    </svg>
-  );
+  return null;
 }
 
 export function SocialLinks({ className = "" }: { className?: string }) {

@@ -1,4 +1,4 @@
-# Biographie — Ben Mbuyulu
+# Biographie : Ben Mbuyulu
 
 L’artiste peintre sculpteur Ben Mbuyulu est né en 2006 à Kinshasa. Élève de l’artiste Amani Bodo, Ben Mbuyulu s’initie à l’âge de 18 ans à la création artistique, plus précisément en peinture, et à l’âge de 20 ans comme artiste de formation à l’Académie des Beaux-Arts de Kinshasa, au département de sculpture.
 
