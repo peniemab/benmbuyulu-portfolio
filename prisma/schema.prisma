@@ -19,6 +19,7 @@ model Artwork {
   category    Category
   medium      String
   year        Int
+  dimensions  String?
   imageUrl    String
   description String?
   colSpan     Int      @default(4)

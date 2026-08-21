@@ -12,66 +12,41 @@ if (!connectionString || connectionString.includes("USER:PASSWORD")) {
 const adapter = new PrismaNeon({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
-/** Desktop mosaic: 12-col grid via colSpan + varied aspectRatio */
+/**
+ * Desktop mosaic on 12 cols — each row must sum to 12:
+ * 5+7 · 7+5 · 8 (last)
+ */
 const artworks = [
-  {
-    title: "Esclaves du sexe",
-    slug: "esclaves-du-sexe",
-    category: "PAINTING" as const,
-    medium: "Peinture",
-    year: 2025,
-    imageUrl: "/artworks/esclaves-du-sexe.png",
-    description:
-      "Deux figures voilées — projet Mystère du voile.",
-    colSpan: 7,
-    aspectRatio: "4/5",
-    stretch: false,
-    sortOrder: 1,
-    published: true,
-  },
   {
     title: "Mi-femme, mi-ange",
     slug: "mi-femme-mi-ange",
     category: "SCULPTURE" as const,
     medium: "Sculpture",
-    year: 2025,
+    year: 2026,
+    dimensions: "1 m",
     imageUrl: "/artworks/mi-femme-mi-ange.png",
     description:
       "Buste ailé au voile sur les yeux — projet Mystère du voile.",
     colSpan: 5,
     aspectRatio: "3/4",
     stretch: false,
-    sortOrder: 2,
+    sortOrder: 1,
     published: true,
   },
   {
-    title: "Voyage âme voile",
+    title: "Le voyage de l’âme voilée",
     slug: "voyage-ame-voile",
     category: "PAINTING" as const,
     medium: "Peinture",
     year: 2026,
+    dimensions: "40 × 60 cm",
     imageUrl: "/artworks/voyage-ame-voile.png",
     description:
       "Cheval bandé des yeux, cavalier enveloppé de rouge — projet Mystère du voile.",
-    colSpan: 5,
+    colSpan: 7,
     aspectRatio: "4/5",
     stretch: false,
-    sortOrder: 3,
-    published: true,
-  },
-  {
-    title: "Énigme du voile",
-    slug: "enigme-du-voile",
-    category: "PAINTING" as const,
-    medium: "Peinture",
-    year: 2026,
-    imageUrl: "/artworks/enigme-du-voile.png",
-    description:
-      "Figure masquée au manteau rouge et serpent — projet Mystère du voile.",
-    colSpan: 7,
-    aspectRatio: "3/4",
-    stretch: false,
-    sortOrder: 4,
+    sortOrder: 2,
     published: true,
   },
   {
@@ -80,9 +55,42 @@ const artworks = [
     category: "SCULPTURE" as const,
     medium: "Sculpture",
     year: 2026,
+    dimensions: "1 m",
     imageUrl: "/artworks/sous-le-voile-du-silence.png",
     description:
       "Sculpture allongée au drapé fluide — projet Mystère du voile.",
+    colSpan: 7,
+    aspectRatio: "4/5",
+    stretch: false,
+    sortOrder: 3,
+    published: true,
+  },
+  {
+    title: "L’énigme du voile",
+    slug: "enigme-du-voile",
+    category: "PAINTING" as const,
+    medium: "Peinture",
+    year: 2026,
+    dimensions: "40 × 60 cm",
+    imageUrl: "/artworks/enigme-du-voile.png",
+    description:
+      "Figure masquée au manteau rouge et serpent — projet Mystère du voile.",
+    colSpan: 5,
+    aspectRatio: "3/4",
+    stretch: false,
+    sortOrder: 4,
+    published: true,
+  },
+  {
+    title: "Esclaves du sexe",
+    slug: "esclaves-du-sexe",
+    category: "PAINTING" as const,
+    medium: "Peinture",
+    year: 2024,
+    dimensions: "50 × 70 cm",
+    imageUrl: "/artworks/esclaves-du-sexe.png",
+    description:
+      "Deux figures voilées — projet Mystère du voile.",
     colSpan: 8,
     aspectRatio: "4/5",
     stretch: false,
@@ -113,7 +121,7 @@ async function main() {
     });
   }
 
-  console.log(`Seeded ${artworks.length} artwork(s). Drop more files in public/artworks/ then re-seed.`);
+  console.log(`Seeded ${artworks.length} artwork(s).`);
 }
 
 main()

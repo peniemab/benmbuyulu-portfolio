@@ -29,7 +29,8 @@ async function getArtworks(): Promise<ArtworkCardData[]> {
         stretch: true,
       },
     });
-  } catch {
+  } catch (error) {
+    console.error("[getArtworks] failed:", error);
     return [];
   }
 }

@@ -15,6 +15,7 @@ CREATE TABLE "Artwork" (
     "category" "Category" NOT NULL,
     "medium" TEXT NOT NULL,
     "year" INTEGER NOT NULL,
+    "dimensions" TEXT,
     "imageUrl" TEXT NOT NULL,
     "description" TEXT,
     "colSpan" INTEGER NOT NULL DEFAULT 4,
