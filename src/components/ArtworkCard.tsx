@@ -39,7 +39,7 @@ export function ArtworkCard({ artwork, className = "" }: ArtworkCardProps) {
           }`}
         />
       </div>
-      <div className="mt-4">
+      <div className="mt-4 text-center">
         <h3 className="font-headline-sm text-headline-sm text-primary">
           {artwork.title}
           <span className="text-on-surface-variant font-body-md text-body-md">
