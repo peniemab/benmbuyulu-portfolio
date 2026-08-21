@@ -175,7 +175,7 @@ export function SiteMenu({
         />
         <button
           type="submit"
-          className="w-fit font-label-caps text-label-caps text-primary border border-primary px-3.5 py-2 hover:bg-primary hover:text-surface transition-colors duration-300"
+          className="self-end w-fit font-label-caps text-label-caps text-primary border border-primary px-3.5 py-2 hover:bg-primary hover:text-surface transition-colors duration-300"
         >
           {labels.newsletter.submit}
         </button>

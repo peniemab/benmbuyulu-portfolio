@@ -12,6 +12,7 @@ if (!connectionString || connectionString.includes("USER:PASSWORD")) {
 const adapter = new PrismaNeon({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
+/** Desktop mosaic: 12-col grid via colSpan + varied aspectRatio */
 const artworks = [
   {
     title: "Esclaves du sexe",
@@ -22,7 +23,7 @@ const artworks = [
     imageUrl: "/artworks/esclaves-du-sexe.png",
     description:
       "Deux figures voilées — projet Mystère du voile.",
-    colSpan: 6,
+    colSpan: 7,
     aspectRatio: "4/5",
     stretch: false,
     sortOrder: 1,
@@ -37,16 +38,60 @@ const artworks = [
     imageUrl: "/artworks/mi-femme-mi-ange.png",
     description:
       "Buste ailé au voile sur les yeux — projet Mystère du voile.",
-    colSpan: 6,
-    aspectRatio: "4/5",
+    colSpan: 5,
+    aspectRatio: "3/4",
     stretch: false,
     sortOrder: 2,
+    published: true,
+  },
+  {
+    title: "Voyage âme voile",
+    slug: "voyage-ame-voile",
+    category: "PAINTING" as const,
+    medium: "Peinture",
+    year: 2026,
+    imageUrl: "/artworks/voyage-ame-voile.png",
+    description:
+      "Cheval bandé des yeux, cavalier enveloppé de rouge — projet Mystère du voile.",
+    colSpan: 5,
+    aspectRatio: "4/5",
+    stretch: false,
+    sortOrder: 3,
+    published: true,
+  },
+  {
+    title: "Énigme du voile",
+    slug: "enigme-du-voile",
+    category: "PAINTING" as const,
+    medium: "Peinture",
+    year: 2026,
+    imageUrl: "/artworks/enigme-du-voile.png",
+    description:
+      "Figure masquée au manteau rouge et serpent — projet Mystère du voile.",
+    colSpan: 7,
+    aspectRatio: "3/4",
+    stretch: false,
+    sortOrder: 4,
+    published: true,
+  },
+  {
+    title: "Sous le voile du silence",
+    slug: "sous-le-voile-du-silence",
+    category: "SCULPTURE" as const,
+    medium: "Sculpture",
+    year: 2026,
+    imageUrl: "/artworks/sous-le-voile-du-silence.png",
+    description:
+      "Sculpture allongée au drapé fluide — projet Mystère du voile.",
+    colSpan: 8,
+    aspectRatio: "4/5",
+    stretch: false,
+    sortOrder: 5,
     published: true,
   },
 ];
 
 async function main() {
-  // Keep only real works for now — remove placeholder seed pieces
   await prisma.artwork.deleteMany({
     where: {
       slug: {

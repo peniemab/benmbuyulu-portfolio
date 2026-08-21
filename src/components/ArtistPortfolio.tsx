@@ -5,6 +5,7 @@ import type { Dictionary } from "@/i18n/dictionaries/fr";
 import { WorksGrid } from "@/components/WorksGrid";
 import { BioSection } from "@/components/BioSection";
 import { SectionIndexNav } from "@/components/SectionIndexNav";
+import { SectionHeading } from "@/components/SectionHeading";
 
 type Props = {
   artworks: ArtworkCardData[];
@@ -17,47 +18,31 @@ export function ArtistPortfolio({ artworks, labels }: Props) {
       <SectionIndexNav labels={labels.nav} />
 
       <section id="oeuvres" className="scroll-mt-24 pb-section-gap">
+        <SectionHeading>{labels.nav.works}</SectionHeading>
         <WorksGrid artworks={artworks} labels={labels.gallery} />
       </section>
 
-      <section id="bio" className="scroll-mt-24 border-t border-outline-variant pt-16 pb-section-gap">
-        <h2 className="font-label-caps text-label-caps text-on-surface-variant mb-8">
-          {labels.nav.bio}
-        </h2>
+      <section id="bio" className="scroll-mt-24 pt-16 pb-section-gap">
+        <SectionHeading>{labels.nav.bio}</SectionHeading>
         <BioSection labels={labels.bio} />
       </section>
 
-      <section
-        id="in-situ"
-        className="scroll-mt-24 border-t border-outline-variant pt-16 pb-section-gap"
-      >
-        <h2 className="font-label-caps text-label-caps text-on-surface-variant mb-8">
-          {labels.nav.inSitu}
-        </h2>
+      <section id="in-situ" className="scroll-mt-24 pt-16 pb-section-gap">
+        <SectionHeading>{labels.nav.inSitu}</SectionHeading>
         <p className="font-body-md text-body-md text-on-surface-variant max-w-xl">
           {labels.sections.inSituSoon}
         </p>
       </section>
 
-      <section
-        id="publications"
-        className="scroll-mt-24 border-t border-outline-variant pt-16 pb-section-gap"
-      >
-        <h2 className="font-label-caps text-label-caps text-on-surface-variant mb-8">
-          {labels.nav.publications}
-        </h2>
+      <section id="publications" className="scroll-mt-24 pt-16 pb-section-gap">
+        <SectionHeading>{labels.nav.publications}</SectionHeading>
         <p className="font-body-md text-body-md text-on-surface-variant max-w-xl">
           {labels.sections.publicationsSoon}
         </p>
       </section>
 
-      <section
-        id="contact"
-        className="scroll-mt-24 border-t border-outline-variant pt-16 pb-24"
-      >
-        <h2 className="font-label-caps text-label-caps text-on-surface-variant mb-8">
-          {labels.nav.contact}
-        </h2>
+      <section id="contact" className="scroll-mt-24 pt-16 pb-24">
+        <SectionHeading>{labels.nav.contact}</SectionHeading>
         <p className="font-body-md text-body-md text-on-surface-variant mb-3">
           {labels.sections.contactLead}
         </p>
