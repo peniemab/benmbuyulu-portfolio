@@ -48,10 +48,13 @@ export const fr = {
     p3: "À travers sa démarche, Ben Mbuyulu cherche à produire des œuvres accessibles, sensibles et porteuses de réflexion, en mettant l’être humain au centre de son questionnement artistique. En peinture, il a créé son style de fond pour rendre ses œuvres si uniques.",
     born: "Né en 2006 à Kinshasa (RDC).",
   },
+  share: {
+    action: "Partager le portfolio",
+    copied: "Lien copié",
+  },
   sections: {
     inSituSoon: "Les projets in situ seront bientôt listés ici.",
     publicationsSoon: "Les publications seront bientôt listées ici.",
-    contactLead: "Pour toute demande :",
   },
   footer: {
     rights: "Ben Mbuyulu. Tous droits réservés.",

@@ -6,6 +6,7 @@ import { WorksGrid } from "@/components/WorksGrid";
 import { BioSection } from "@/components/BioSection";
 import { SectionIndexNav } from "@/components/SectionIndexNav";
 import { SectionHeading } from "@/components/SectionHeading";
+import { ContactBar } from "@/components/ContactBar";
 
 type Props = {
   artworks: ArtworkCardData[];
@@ -41,17 +42,12 @@ export function ArtistPortfolio({ artworks, labels }: Props) {
         </p>
       </section>
 
-      <section id="contact" className="scroll-mt-24 pt-16 pb-24">
-        <SectionHeading>{labels.nav.contact}</SectionHeading>
-        <p className="font-body-md text-body-md text-on-surface-variant mb-3">
-          {labels.sections.contactLead}
-        </p>
-        <a
-          href="mailto:mbuyuluben@gmail.com"
-          className="font-headline-sm text-headline-sm text-primary underline-offset-4 hover:underline"
-        >
-          mbuyuluben@gmail.com
-        </a>
+      <section
+        id="contact"
+        aria-label={labels.nav.contact}
+        className="scroll-mt-24 pt-16 pb-24"
+      >
+        <ContactBar labels={labels} />
       </section>
     </div>
   );

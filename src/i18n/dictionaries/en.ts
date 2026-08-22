@@ -50,10 +50,13 @@ export const en: Dictionary = {
     p3: "Through his practice, Ben Mbuyulu aims to make works that are accessible, sensitive, and reflective, placing the human being at the center of his artistic inquiry. In painting, he developed his own background style to make his works uniquely his.",
     born: "Born in 2006 in Kinshasa (DRC).",
   },
+  share: {
+    action: "Share the portfolio",
+    copied: "Link copied",
+  },
   sections: {
     inSituSoon: "In situ projects will be listed here soon.",
     publicationsSoon: "Publications will be listed here soon.",
-    contactLead: "For inquiries:",
   },
   footer: {
     rights: "Ben Mbuyulu. All rights reserved.",

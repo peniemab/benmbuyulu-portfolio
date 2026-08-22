@@ -30,7 +30,7 @@ export function BioSection({ labels }: Props) {
               className="object-cover object-[center_20%]"
             />
           </div>
-          <p className="font-body-md text-[0.8rem] text-on-surface-variant">
+          <p className="text-center font-body-md text-[0.8rem] text-on-surface-variant">
             ©{" "}
             <a
               href="https://penielmabanza.vercel.app/"
