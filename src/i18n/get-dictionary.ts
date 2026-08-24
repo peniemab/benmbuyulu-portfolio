@@ -1,4 +1,4 @@
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import {
   defaultLocale,
   isLocale,
@@ -11,14 +11,11 @@ import { en } from "@/i18n/dictionaries/en";
 
 const dictionaries: Record<Locale, Dictionary> = { fr, en };
 
+/** Cookie if set, otherwise English by default. */
 export async function getLocale(): Promise<Locale> {
   const jar = await cookies();
   const fromCookie = jar.get(LOCALE_COOKIE)?.value;
   if (isLocale(fromCookie)) return fromCookie;
-
-  const accept = (await headers()).get("accept-language")?.toLowerCase() ?? "";
-  if (accept.includes("fr")) return "fr";
-  if (accept.includes("en")) return "en";
   return defaultLocale;
 }
 

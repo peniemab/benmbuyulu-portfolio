@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/fr";
 import type { Locale } from "@/i18n/config";
 import { SiteMenu } from "@/components/SiteMenu";
+import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 
 type Props = {
   labels: Dictionary;
@@ -72,15 +73,24 @@ export function SiteChrome({ labels, locale }: Props) {
         >
           {labels.brand}
         </a>
-        <button
-          type="button"
-          aria-label={open ? labels.common.closeMenu : labels.common.openMenu}
-          aria-expanded={open}
-          onClick={() => setOpen((value) => !value)}
-          className="relative z-50 flex size-10 items-center justify-center text-primary"
-        >
-          <IconMenu open={open} />
-        </button>
+
+        <div className="relative z-50 flex items-center gap-1">
+          <LocaleSwitcher
+            locale={locale}
+            labelFr={labels.locale.fr}
+            labelEn={labels.locale.en}
+            ariaLabel={labels.locale.label}
+          />
+          <button
+            type="button"
+            aria-label={open ? labels.common.closeMenu : labels.common.openMenu}
+            aria-expanded={open}
+            onClick={() => setOpen((value) => !value)}
+            className="flex size-10 items-center justify-center text-primary"
+          >
+            <IconMenu open={open} />
+          </button>
+        </div>
       </header>
 
       <div
@@ -91,7 +101,6 @@ export function SiteChrome({ labels, locale }: Props) {
         }`}
         aria-hidden={!open}
       >
-        {/* Equal top & bottom inset (same as close to edges), then menu aligns inside */}
         <div
           className={`h-dvh overflow-hidden px-margin-mobile py-14 transition-all duration-500 ease-out ${
             open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
@@ -101,6 +110,7 @@ export function SiteChrome({ labels, locale }: Props) {
             labels={labels}
             locale={locale}
             onNavigate={() => setOpen(false)}
+            showLocaleSwitcher={false}
           />
         </div>
       </div>

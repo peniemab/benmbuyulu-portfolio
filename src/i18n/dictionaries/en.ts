@@ -38,9 +38,14 @@ export const en: Dictionary = {
     all: "All",
     paintings: "Paintings",
     sculptures: "Sculptures",
+    painting: "Painting",
+    sculpture: "Sculpture",
     emptyCategory: "No artworks in this category yet.",
     emptyGallery: "Works coming soon.",
     loadMore: "Load more",
+  },
+  hero: {
+    imageAlt: "Esclaves du sexe : Ben Mbuyulu, painting, Mystery of the Veil",
   },
   bio: {
     lead:

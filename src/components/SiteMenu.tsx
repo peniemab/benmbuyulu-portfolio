@@ -104,6 +104,7 @@ type SiteMenuProps = {
   locale: Locale;
   onNavigate?: () => void;
   showBrand?: boolean;
+  showLocaleSwitcher?: boolean;
 };
 
 /**
@@ -114,6 +115,7 @@ export function SiteMenu({
   locale,
   onNavigate,
   showBrand = true,
+  showLocaleSwitcher = true,
 }: SiteMenuProps) {
   return (
     <div className="flex h-full min-h-0 flex-col justify-between py-1">
@@ -150,14 +152,16 @@ export function SiteMenu({
         ))}
       </nav>
 
-      <div className="shrink-0">
-        <LocaleSwitcher
-          locale={locale}
-          labelFr={labels.locale.fr}
-          labelEn={labels.locale.en}
-          ariaLabel={labels.locale.label}
-        />
-      </div>
+      {showLocaleSwitcher && (
+        <div className="shrink-0">
+          <LocaleSwitcher
+            locale={locale}
+            labelFr={labels.locale.fr}
+            labelEn={labels.locale.en}
+            ariaLabel={labels.locale.label}
+          />
+        </div>
+      )}
 
       <form
         className="flex shrink-0 flex-col gap-2"
@@ -173,11 +177,11 @@ export function SiteMenu({
           name="email"
           required
           placeholder={labels.newsletter.placeholder}
-          className="w-full border border-outline-variant bg-surface-container-lowest px-3 py-2 text-[14px] font-body-md text-on-surface outline-none focus:border-primary transition-colors duration-300"
+          className="w-full border border-outline-variant bg-surface-container-lowest px-3 py-2 text-[16px] leading-normal font-body-md text-on-surface outline-none focus:border-primary transition-colors duration-300"
         />
         <button
           type="submit"
-          className="self-end w-fit font-label-caps text-label-caps bg-primary text-on-primary border border-primary px-3.5 py-2 hover:opacity-85 transition-opacity duration-300"
+          className="self-end w-fit font-label-caps text-label-caps bg-black text-white border border-black px-3.5 py-2 hover:opacity-85 transition-opacity duration-300"
         >
           {labels.newsletter.submit}
         </button>

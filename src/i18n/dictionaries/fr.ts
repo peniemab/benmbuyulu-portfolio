@@ -36,9 +36,14 @@ export const fr = {
     all: "Tout",
     paintings: "Peintures",
     sculptures: "Sculptures",
+    painting: "Peinture",
+    sculpture: "Sculpture",
     emptyCategory: "Aucune œuvre dans cette catégorie.",
     emptyGallery: "Les œuvres seront bientôt disponibles.",
     loadMore: "Voir plus",
+  },
+  hero: {
+    imageAlt: "Esclaves du sexe : Ben Mbuyulu, peinture, Mystère du voile",
   },
   bio: {
     lead:

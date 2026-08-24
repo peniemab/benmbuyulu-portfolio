@@ -57,7 +57,7 @@ export function WorksGrid({ artworks, labels }: Props) {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-12 md:items-start gap-x-gutter gap-y-12 md:gap-y-14">
           {filtered.map((artwork) => (
-            <ArtworkCard key={artwork.id} artwork={artwork} />
+            <ArtworkCard key={artwork.id} artwork={artwork} labels={labels} />
           ))}
         </div>
       )}

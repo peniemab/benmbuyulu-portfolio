@@ -1,8 +1,10 @@
 import Image from "next/image";
 import type { ArtworkCardData } from "@/lib/artworks";
+import type { Dictionary } from "@/i18n/dictionaries/fr";
 
 type ArtworkCardProps = {
   artwork: ArtworkCardData;
+  labels: Dictionary["gallery"];
   className?: string;
 };
 
@@ -17,11 +19,13 @@ const COL_SPAN: Record<number, string> = {
   12: "md:col-span-12",
 };
 
-export function ArtworkCard({ artwork, className = "" }: ArtworkCardProps) {
+export function ArtworkCard({ artwork, labels, className = "" }: ArtworkCardProps) {
   const spanClass = COL_SPAN[artwork.colSpan] ?? "md:col-span-6";
   const ratio = artwork.aspectRatio.includes("/")
     ? artwork.aspectRatio.replace("/", " / ")
     : artwork.aspectRatio;
+  const mediumLabel =
+    artwork.category === "SCULPTURE" ? labels.sculpture : labels.painting;
 
   return (
     <article className={`group col-span-1 ${spanClass} ${className}`}>
@@ -31,7 +35,7 @@ export function ArtworkCard({ artwork, className = "" }: ArtworkCardProps) {
       >
         <Image
           src={artwork.imageUrl}
-          alt={artwork.description ?? artwork.title}
+          alt={artwork.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
           className={`transition-transform duration-700 group-hover:scale-[1.02] ${
@@ -48,7 +52,7 @@ export function ArtworkCard({ artwork, className = "" }: ArtworkCardProps) {
           </span>
         </h3>
         <p className="mt-1 font-body-md text-body-md text-on-surface-variant">
-          {artwork.medium}
+          {mediumLabel}
         </p>
       </div>
     </article>
