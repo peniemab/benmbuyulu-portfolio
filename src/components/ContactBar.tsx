@@ -3,13 +3,12 @@
 import { useState } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/fr";
 
-const CONTACT_EMAIL = "mbuyuluben@gmail.com";
-
 type Props = {
   labels: Dictionary;
+  email: string;
 };
 
-export function ContactBar({ labels }: Props) {
+export function ContactBar({ labels, email }: Props) {
   const [copied, setCopied] = useState(false);
 
   async function sharePortfolio() {
@@ -43,7 +42,7 @@ export function ContactBar({ labels }: Props) {
   return (
     <div className="flex items-center justify-center gap-3">
       <a
-        href={`mailto:${CONTACT_EMAIL}`}
+        href={`mailto:${email}`}
         className="inline-flex items-center justify-center bg-mustard px-8 py-3 font-display-lg font-medium text-[0.95rem] tracking-wide text-primary transition-opacity duration-300 hover:opacity-90"
       >
         {labels.nav.contact}

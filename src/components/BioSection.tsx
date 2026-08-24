@@ -3,16 +3,19 @@ import type { Dictionary } from "@/i18n/dictionaries/fr";
 
 type Props = {
   labels: Dictionary["bio"];
+  portraitSrc?: string;
 };
 
-const PORTRAIT_SRC = "/artist/ben-mbuyulu.jpg";
 const PORTRAIT_ALT = "Ben Mbuyulu : portrait";
 
 /**
  * Mobile: lead → portrait → born + body
  * Desktop: lead left (photo fills leftover space under it) | born + body right
  */
-export function BioSection({ labels }: Props) {
+export function BioSection({
+  labels,
+  portraitSrc = "/artist/ben-mbuyulu.jpg",
+}: Props) {
   return (
     <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-12 lg:gap-16 md:items-stretch">
       <div className="flex min-w-0 flex-col gap-8 md:gap-10 md:h-full">
@@ -23,7 +26,7 @@ export function BioSection({ labels }: Props) {
         <div className="flex min-h-0 flex-col gap-3 md:flex-1">
           <div className="relative w-full aspect-[4/5] overflow-hidden md:aspect-auto md:min-h-[24rem] md:flex-1">
             <Image
-              src={PORTRAIT_SRC}
+              src={portraitSrc}
               alt={PORTRAIT_ALT}
               fill
               sizes="(max-width: 768px) 100vw, 40vw"

@@ -15,4 +15,5 @@ export async function setLocaleAction(locale: Locale) {
   });
 
   revalidatePath("/", "layout");
+  revalidatePath("/atelier", "layout");
 }

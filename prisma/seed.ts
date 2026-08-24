@@ -122,6 +122,43 @@ async function main() {
   }
 
   console.log(`Seeded ${artworks.length} artwork(s).`);
+
+  await prisma.siteContent.upsert({
+    where: { id: "main" },
+    create: {
+      id: "main",
+      heroImageUrl: "/artworks/esclaves-du-sexe.png",
+      heroImageAltFr:
+        "Esclaves du sexe : Ben Mbuyulu, peinture, Mystère du voile",
+      heroImageAltEn:
+        "Esclaves du sexe : Ben Mbuyulu, painting, Mystery of the Veil",
+      portraitUrl: "/artist/ben-mbuyulu.jpg",
+      bioLeadFr:
+        "Peintre et sculpteur, Ben Mbuyulu mène une recherche autour du voile comme symbole : ce qui cache, protège, révèle ou transforme.",
+      bioLeadEn:
+        "Painter and sculptor Ben Mbuyulu explores the veil as a symbol: what hides, protects, reveals, or transforms.",
+      bioBornFr: "Né en 2006 à Kinshasa (RDC).",
+      bioBornEn: "Born in 2006 in Kinshasa (DRC).",
+      bioP1Fr:
+        "L’artiste peintre sculpteur Ben Mbuyulu est né en 2006 à Kinshasa. Élève de l’artiste Amani Bodo, Ben Mbuyulu s’initie à l’âge de 18 ans à la création artistique, plus précisément en peinture, et à l’âge de 20 ans comme artiste de formation à l’Académie des Beaux-Arts de Kinshasa, au département de sculpture.",
+      bioP1En:
+        "Painter and sculptor Ben Mbuyulu was born in 2006 in Kinshasa. A student of artist Amani Bodo, he began artistic creation at 18, first in painting, and at 20 trained at the Academy of Fine Arts of Kinshasa in the sculpture department.",
+      bioP2Fr:
+        "L’artiste rassemble les deux disciplines pour lancer un projet intitulé Mystère du voile, un espace de recherche autour du voile comme symbole : il peut cacher, protéger, révéler, séparer, soutenir et transformer. Le projet interroge aussi ce que l’être humain choisit de montrer ou de dissimuler.",
+      bioP2En:
+        "He brings both disciplines together in a project titled Mystery of the Veil: a space of research around the veil as symbol: it can hide, protect, reveal, separate, support, and transform. The project also questions what human beings choose to show or conceal.",
+      bioP3Fr:
+        "À travers sa démarche, Ben Mbuyulu cherche à produire des œuvres accessibles, sensibles et porteuses de réflexion, en mettant l’être humain au centre de son questionnement artistique. En peinture, il a créé son style de fond pour rendre ses œuvres si uniques.",
+      bioP3En:
+        "Through his practice, Ben Mbuyulu aims to make works that are accessible, sensitive, and reflective, placing the human being at the center of his artistic inquiry. In painting, he developed his own background style to make his works uniquely his.",
+      email: "mbuyuluben@gmail.com",
+      instagramUrl: "https://www.instagram.com/benmbuyulu/",
+      facebookUrl: "https://www.facebook.com/profile.php?id=61589274320031",
+    },
+    update: {},
+  });
+
+  console.log("Site content ready (not overwritten if already present).");
 }
 
 main()

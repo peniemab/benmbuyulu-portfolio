@@ -1,15 +1,16 @@
-# Cahier des charges — Portfolio Ben Mbuyulu
+﻿# Cahier des charges — Portfolio Ben Mbuyulu
 
 Document vivant. À mettre à jour après chaque décision produit / technique.
 
-Dernière mise à jour : 2026-08-22
+Dernière mise à jour : 2026-08-24
 
 ---
 
 ## 1. Produit
 
-- Site portfolio public pour l’artiste **Ben Mbuyulu** (peintre / sculpteur, projet *Mystère du voile*).
-- Une seule page scrollable : Hero → Œuvres → Bio → In situ → Publications → Contact.
+- Site web public (`/`) : le portfolio, pour tout le monde.
+- **Atelier** (`/atelier`) : l’espace privé de Ben (PWA installable), en français, pensé pour un non-dev.
+- Une seule page publique scrollable : Hero → Œuvres → Bio → In situ → Publications → Contact.
 - Pas de multi-tenant / SaaS pour le moment (reporté).
 
 ## 2. Décisions actives
@@ -21,8 +22,11 @@ Dernière mise à jour : 2026-08-22
 | Sélecteur de langue mobile | À côté du burger (hors menu) | 2026-08-22 |
 | Images œuvres | Fichiers dans `public/` + métadonnées Neon | 2026-08-21 |
 | Contact public | Bouton mailto + partage (pas de titre section) | 2026-08-22 |
-| In situ / Publications | Gérés plus tard par Ben via **PWA admin** | 2026-08-22 |
-| Admin complète (tous contenus) | Après la PWA In situ + Publications | 2026-08-22 |
+| In situ / Publications | Ben via `/atelier` | 2026-08-24 |
+| `/atelier` | **Atelier de Ben** (privé), pas une copie publique du site | 2026-08-24 |
+| Install sur le site `/` | **Non** : pas de manifest sur le site web | 2026-08-24 |
+| Auth atelier | Plus tard | 2026-08-24 |
+| Photos uploadées | Local `public/uploads` ; Vercel Blob si `BLOB_READ_WRITE_TOKEN` | 2026-08-24 |
 | Expositions | Abandonné ; remplacé par **In situ** | 2026-08-21 |
 
 ## 3. Stack
@@ -30,36 +34,43 @@ Dernière mise à jour : 2026-08-22
 - Next.js 16 (App Router) + React 19 + Tailwind v4
 - Prisma 7 + Neon (PostgreSQL)
 - Déploiement Vercel
-- i18n : dictionnaires `src/i18n/dictionaries/{en,fr}.ts`
+- i18n UI : dictionnaires `src/i18n/dictionaries/{en,fr}.ts`
+- Contenu éditable (bio, hero, contact) : Neon `SiteContent`
 
 ## 4. Sections (état)
 
 | Section | État public | Qui gère le contenu |
 |---|---|---|
-| Hero | OK | Dev / seed |
-| Œuvres | OK (5 œuvres) | Dev / seed pour l’instant |
-| Bio | OK | Dictionnaires i18n |
-| In situ | Placeholder | **PWA Ben** (à construire) |
-| Publications | Placeholder | **PWA Ben** (à construire) |
-| Contact | Bouton + share | Email / réseaux fixes |
+| Hero | OK | Ben via `/atelier/accueil` |
+| Œuvres | OK (5 œuvres) | Ben via `/atelier/oeuvres` |
+| Bio | OK | Ben via `/atelier/bio` (FR + EN optionnel) |
+| In situ | Liste si fiches, sinon placeholder | Ben via `/atelier/in-situ` |
+| Publications | Liste si fiches, sinon placeholder | Ben via `/atelier/publications` |
+| Contact | Bouton + share | Ben via `/atelier/contact` |
 
-## 5. Roadmap PWA (prochaine grande étape)
+## 5. Atelier (`/atelier`)
 
-1. Schéma Prisma In situ + Publications  
-2. Affichage public depuis Neon  
-3. Auth (Ben seul)  
-4. PWA CRUD In situ + Publications  
-5. Upload images (Blob / Cloudinary recommandé)  
-6. Plus tard : admin pour Œuvres / Bio / Hero  
+- Page privée, **non indexée**, non liée dans le menu public.
+- Langue de l’interface : **français uniquement**.
+- Accueil : cartes visuelles des sections du site.
+- Chaque section : changer la photo, changer le texte, montrer / cacher.
+- Pas de jargon.
+- Connexion : plus tard. L’atelier est ouvert pour travailler le contenu.
 
-## 6. Contacts officiels
+## 6. Roadmap
+
+1. Atelier `/atelier` (hero, œuvres, bio, in situ, publications, contact) — en cours  
+2. Production : Vercel Blob pour les photos uploadées  
+3. Plus tard : réordonner les œuvres par glisser-déposer  
+
+## 7. Contacts officiels (valeurs initiales, éditables dans l’atelier)
 
 - Email : `mbuyuluben@gmail.com`
 - Instagram : https://www.instagram.com/benmbuyulu/
 - Facebook : https://www.facebook.com/profile.php?id=61589274320031
 
-## 7. Notes
+## 8. Notes
 
 - Les **titres d’œuvres** restent dans leur forme officielle (souvent FR), même en UI EN.
-- Les labels UI (filtres, bio, boutons, etc.) suivent la langue active.
+- Les labels UI (filtres, boutons, etc.) suivent la langue active du visiteur.
 - Ce fichier se met à jour quand une décision change.

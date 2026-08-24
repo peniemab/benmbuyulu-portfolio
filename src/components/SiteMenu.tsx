@@ -14,19 +14,6 @@ export const NAV_ITEMS = [
   { href: "#contact", key: "contact" as const },
 ];
 
-const SOCIALS = [
-  {
-    key: "instagram" as const,
-    href: "https://www.instagram.com/benmbuyulu/",
-    label: "Instagram",
-  },
-  {
-    key: "facebook" as const,
-    href: "https://www.facebook.com/profile.php?id=61589274320031",
-    label: "Facebook",
-  },
-];
-
 function SocialIcon({
   name,
   gradientId,
@@ -77,12 +64,24 @@ function SocialIcon({
   return null;
 }
 
-export function SocialLinks({ className = "" }: { className?: string }) {
+export function SocialLinks({
+  className = "",
+  instagramUrl,
+  facebookUrl,
+}: {
+  className?: string;
+  instagramUrl: string;
+  facebookUrl: string;
+}) {
   const gradientId = useId().replace(/:/g, "");
+  const socials = [
+    { key: "instagram" as const, href: instagramUrl, label: "Instagram" },
+    { key: "facebook" as const, href: facebookUrl, label: "Facebook" },
+  ].filter((item) => item.href);
 
   return (
     <ul className={`flex items-center gap-3.5 ${className}`}>
-      {SOCIALS.map(({ key, href, label }) => (
+      {socials.map(({ key, href, label }) => (
         <li key={key}>
           <a
             href={href}
@@ -102,6 +101,8 @@ export function SocialLinks({ className = "" }: { className?: string }) {
 type SiteMenuProps = {
   labels: Dictionary;
   locale: Locale;
+  instagramUrl: string;
+  facebookUrl: string;
   onNavigate?: () => void;
   showBrand?: boolean;
   showLocaleSwitcher?: boolean;
@@ -113,6 +114,8 @@ type SiteMenuProps = {
 export function SiteMenu({
   labels,
   locale,
+  instagramUrl,
+  facebookUrl,
   onNavigate,
   showBrand = true,
   showLocaleSwitcher = true,
@@ -187,7 +190,11 @@ export function SiteMenu({
         </button>
       </form>
 
-      <SocialLinks className="shrink-0" />
+      <SocialLinks
+        className="shrink-0"
+        instagramUrl={instagramUrl}
+        facebookUrl={facebookUrl}
+      />
     </div>
   );
 }

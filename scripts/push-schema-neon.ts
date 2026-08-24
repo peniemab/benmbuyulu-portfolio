@@ -4,7 +4,7 @@
  */
 import "dotenv/config";
 import { neon } from "@neondatabase/serverless";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 
 const url = process.env.DATABASE_URL;
@@ -19,10 +19,27 @@ async function main() {
   await sql`SELECT 1 AS ok`;
   console.log("Connected to Neon (serverless).");
 
-  const migrationPath = resolve(
-    "prisma/migrations/20260820100000_portfolio_only/migration.sql",
-  );
-  const raw = readFileSync(migrationPath, "utf8");
+  const migrationsDir = resolve("prisma/migrations");
+  const folders = readdirSync(migrationsDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+
+  for (const folder of folders) {
+    const migrationPath = resolve(migrationsDir, folder, "migration.sql");
+    if (!existsSync(migrationPath)) {
+      console.log(`SKIP ${folder} (no migration.sql)`);
+      continue;
+    }
+    console.log(`Applying ${folder}…`);
+    const raw = readFileSync(migrationPath, "utf8");
+    await applySql(raw);
+  }
+
+  console.log("Schema applied. Next: npm run db:seed");
+}
+
+async function applySql(raw: string) {
 
   const statements = raw
     .split(";")
@@ -33,7 +50,8 @@ async function main() {
         .join("\n")
         .trim(),
     )
-    .filter(Boolean);
+    .filter(Boolean)
+    .filter((statement) => !/^\s*DROP\s/i.test(statement));
 
   for (const statement of statements) {
     const preview = statement.slice(0, 60).replace(/\s+/g, " ");
@@ -51,7 +69,6 @@ async function main() {
     }
   }
 
-  console.log("Schema applied. Next: npm run db:seed");
 }
 
 main().catch((error) => {

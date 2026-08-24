@@ -66,4 +66,8 @@ export const en: Dictionary = {
   footer: {
     rights: "Ben Mbuyulu. All rights reserved.",
   },
+  atelier: {
+    install: "Install the app",
+    installed: "App installed",
+  },
 };

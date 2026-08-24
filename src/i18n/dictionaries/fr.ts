@@ -64,6 +64,10 @@ export const fr = {
   footer: {
     rights: "Ben Mbuyulu. Tous droits réservés.",
   },
+  atelier: {
+    install: "Installer l’application",
+    installed: "Application installée",
+  },
 } as const;
 
 type DeepStringify<T> = {

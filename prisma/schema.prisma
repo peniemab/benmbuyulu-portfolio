@@ -32,3 +32,59 @@ model Artwork {
 
   @@index([published, sortOrder])
 }
+
+/** Singleton: hero, bio, portrait, contact — edited in /studio */
+model SiteContent {
+  id             String @id @default("main")
+  heroImageUrl   String
+  heroImageAltFr String @default("")
+  heroImageAltEn String @default("")
+  portraitUrl    String
+
+  bioLeadFr String
+  bioLeadEn String
+  bioBornFr String
+  bioBornEn String
+  bioP1Fr   String
+  bioP1En   String
+  bioP2Fr   String
+  bioP2En   String
+  bioP3Fr   String
+  bioP3En   String
+
+  email        String
+  instagramUrl String
+  facebookUrl  String
+
+  updatedAt DateTime @updatedAt
+}
+
+model InSituWork {
+  id          String   @id @default(cuid())
+  title       String
+  place       String   @default("")
+  year        Int?
+  imageUrl    String
+  description String   @default("")
+  published   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published, sortOrder])
+}
+
+model Publication {
+  id        String   @id @default(cuid())
+  title     String
+  source    String   @default("")
+  year      Int?
+  url       String   @default("")
+  imageUrl  String   @default("")
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published, sortOrder])
+}

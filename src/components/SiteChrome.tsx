@@ -9,6 +9,8 @@ import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 type Props = {
   labels: Dictionary;
   locale: Locale;
+  instagramUrl: string;
+  facebookUrl: string;
 };
 
 function IconMenu({ open }: { open: boolean }) {
@@ -40,7 +42,7 @@ function IconMenu({ open }: { open: boolean }) {
   );
 }
 
-export function SiteChrome({ labels, locale }: Props) {
+export function SiteChrome({ labels, locale, instagramUrl, facebookUrl }: Props) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -53,7 +55,12 @@ export function SiteChrome({ labels, locale }: Props) {
   return (
     <>
       <aside className="fixed inset-y-0 left-0 z-40 hidden h-svh w-1/4 flex-col border-r border-outline-variant bg-surface px-5 py-10 lg:px-7 md:flex">
-        <SiteMenu labels={labels} locale={locale} />
+        <SiteMenu
+          labels={labels}
+          locale={locale}
+          instagramUrl={instagramUrl}
+          facebookUrl={facebookUrl}
+        />
       </aside>
 
       <header
@@ -109,6 +116,8 @@ export function SiteChrome({ labels, locale }: Props) {
           <SiteMenu
             labels={labels}
             locale={locale}
+            instagramUrl={instagramUrl}
+            facebookUrl={facebookUrl}
             onNavigate={() => setOpen(false)}
             showLocaleSwitcher={false}
           />
