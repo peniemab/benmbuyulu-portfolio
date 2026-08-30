@@ -21,6 +21,7 @@ export default async function StudioEspaceLayout({
       copy={labels.atelier}
       locale={locale}
       localeLabels={labels.locale}
+      showLogout
     >
       {children}
     </StudioChrome>

@@ -1,39 +1,38 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getAtelierCopy } from "@/lib/atelier-copy";
 import {
-  createSessionToken,
-  isStudioPasswordConfigured,
-  passwordMatches,
-  STUDIO_COOKIE,
-  studioCookieOptions,
-} from "@/lib/studio-auth";
+  clearSession,
+  hasStudioSession,
+  setSession,
+} from "@/lib/studio-guard";
+import { verifyUserCredentials } from "@/lib/user";
 
-export type LoginState = { error: string } | null;
+export type LoginState = { error?: string } | null;
 
 export async function loginAction(
   _prev: LoginState,
   formData: FormData,
 ): Promise<LoginState> {
   const copy = await getAtelierCopy();
-  if (!isStudioPasswordConfigured()) {
-    return { error: copy.login.notConfigured };
-  }
-
+  const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
-  if (!passwordMatches(password)) {
-    return { error: copy.login.wrongPassword };
+
+  const user = await verifyUserCredentials(email, password);
+  if (!user) {
+    return { error: copy.auth.invalidCredentials };
   }
 
-  const jar = await cookies();
-  jar.set(STUDIO_COOKIE, createSessionToken(), studioCookieOptions());
+  await setSession(user.id);
   redirect("/atelier");
 }
 
 export async function logoutAction() {
-  const jar = await cookies();
-  jar.delete(STUDIO_COOKIE);
+  await clearSession();
   redirect("/atelier/connexion");
+}
+
+export async function redirectIfAuthed() {
+  if (await hasStudioSession()) redirect("/atelier");
 }

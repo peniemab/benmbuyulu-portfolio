@@ -9,10 +9,6 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL(nextPath, request.url));
   }
 
-  if (pathname === "/atelier/connexion") {
-    return NextResponse.redirect(new URL("/atelier", request.url));
-  }
-
   return NextResponse.next();
 }
 

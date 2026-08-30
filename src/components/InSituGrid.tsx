@@ -27,25 +27,28 @@ export function InSituGrid({
               className="size-full object-cover"
             />
           </div>
-          <h3 className="mt-4 font-headline-sm text-headline-sm text-primary">
-            {item.title}
-            {item.year ? (
-              <span className="text-on-surface-variant font-body-md text-body-md">
-                {" "}
-                ({item.year})
-              </span>
+          <div className="mt-4 text-center">
+            <h3 className="font-headline-sm text-[1.125rem] leading-snug text-primary md:text-[1.2rem]">
+              {item.title}
+              {item.year ? (
+                <span className="text-on-surface-variant font-body-md text-[0.95em]">
+                  {" "}
+                  ({item.year})
+                </span>
+              ) : null}
+              {item.place ? (
+                <span className="text-on-surface-variant font-body-md text-[0.95em]">
+                  {", "}
+                  {item.place}
+                </span>
+              ) : null}
+            </h3>
+            {item.description ? (
+              <p className="mt-3 font-body-md text-body-md text-on-surface-variant">
+                {item.description}
+              </p>
             ) : null}
-          </h3>
-          {item.place ? (
-            <p className="mt-1 font-body-md text-body-md text-on-surface-variant">
-              {item.place}
-            </p>
-          ) : null}
-          {item.description ? (
-            <p className="mt-3 font-body-md text-body-md text-on-surface-variant">
-              {item.description}
-            </p>
-          ) : null}
+          </div>
         </li>
       ))}
     </ul>

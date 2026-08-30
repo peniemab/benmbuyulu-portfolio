@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { logoutAction } from "@/app/atelier/actions";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 import { AtelierBack, AtelierButton } from "@/components/studio/ui";
 import type { Locale } from "@/i18n/config";
@@ -13,9 +14,16 @@ type Props = {
   copy: AtelierCopy;
   locale: Locale;
   localeLabels: { fr: string; en: string; label: string };
+  showLogout: boolean;
 };
 
-export function StudioChrome({ children, copy, locale, localeLabels }: Props) {
+export function StudioChrome({
+  children,
+  copy,
+  locale,
+  localeLabels,
+  showLogout,
+}: Props) {
   const pathname = usePathname();
   const isHome = pathname === "/atelier";
   const current = SECTIONS.find(
@@ -58,6 +66,13 @@ export function StudioChrome({ children, copy, locale, localeLabels }: Props) {
           >
             {copy.seeSite}
           </AtelierButton>
+          {showLogout ? (
+            <form action={logoutAction}>
+              <AtelierButton type="submit" variant="outline" size="sm">
+                {copy.logout}
+              </AtelierButton>
+            </form>
+          ) : null}
         </div>
       </header>
 

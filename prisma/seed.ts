@@ -97,6 +97,50 @@ const artworks = [
     sortOrder: 5,
     published: true,
   },
+  {
+    title: "Aveuglément volontaire",
+    slug: "aveuglement-volontaire",
+    category: "PAINTING" as const,
+    medium: "Peinture",
+    year: 2026,
+    dimensions: null,
+    imageUrl: "/artworks/aveuglement-volontaire.jpg",
+    description:
+      "Acrylique sur toile : figure au bandeau rouge, mains sur les yeux.",
+    colSpan: 5,
+    aspectRatio: "3/4",
+    stretch: false,
+    sortOrder: 6,
+    published: true,
+  },
+  {
+    title: "Le regard complice",
+    slug: "le-regard-complice",
+    category: "PAINTING" as const,
+    medium: "Peinture",
+    year: 2026,
+    dimensions: "80 × 100 cm",
+    imageUrl: "/artworks/le-regard-complice.jpg",
+    description:
+      "Acrylique sur toile : scène figurative au manteau rouge.",
+    colSpan: 7,
+    aspectRatio: "4/5",
+    stretch: false,
+    sortOrder: 7,
+    published: true,
+  },
+];
+
+const inSituWorks = [
+  {
+    title: "Ben Mbuyulu devant le tableau Le regard complice",
+    place: "Kinshasa (RDC)",
+    year: 2026,
+    imageUrl: "/artworks/le-regard-complice-insitu.jpg",
+    description: "",
+    published: true,
+    sortOrder: 1,
+  },
 ];
 
 async function main() {
@@ -122,6 +166,22 @@ async function main() {
   }
 
   console.log(`Seeded ${artworks.length} artwork(s).`);
+
+  for (const item of inSituWorks) {
+    const existing = await prisma.inSituWork.findFirst({
+      where: { imageUrl: item.imageUrl },
+    });
+    if (existing) {
+      await prisma.inSituWork.update({
+        where: { id: existing.id },
+        data: item,
+      });
+    } else {
+      await prisma.inSituWork.create({ data: item });
+    }
+  }
+
+  console.log(`Seeded ${inSituWorks.length} in situ entry(ies).`);
 
   await prisma.siteContent.upsert({
     where: { id: "main" },

@@ -1,44 +1,43 @@
 import type { Metadata } from "next";
-import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 import { LoginForm } from "@/components/studio/LoginForm";
+import { AuthShell } from "@/components/studio/AuthShell";
 import { getAtelierCopy } from "@/lib/atelier-copy";
 import { getDictionary, getLocale } from "@/i18n/get-dictionary";
-import { isStudioPasswordConfigured } from "@/lib/studio-auth";
+import { redirectIfAuthed } from "@/app/atelier/actions";
+import { isSignupAllowed } from "@/lib/user";
 
 export const metadata: Metadata = {
   title: "Atelier",
   robots: { index: false, follow: false },
 };
 
-export default async function AtelierLoginPage() {
-  const [copy, labels, locale] = await Promise.all([
+type Props = {
+  searchParams: Promise<{ reset?: string }>;
+};
+
+export default async function AtelierLoginPage({ searchParams }: Props) {
+  await redirectIfAuthed();
+
+  const params = await searchParams;
+  const [copy, labels, locale, signupOpen] = await Promise.all([
     getAtelierCopy(),
     getDictionary(),
     getLocale(),
+    isSignupAllowed(),
   ]);
 
   return (
-    <div className="flex min-h-svh items-center justify-center bg-surface px-margin-mobile">
-      <div className="w-full max-w-sm">
-        <div className="mb-8 flex justify-end">
-          <LocaleSwitcher
-            locale={locale}
-            labelFr={labels.locale.fr}
-            labelEn={labels.locale.en}
-            ariaLabel={labels.locale.label}
-          />
-        </div>
-        <p className="font-label-caps text-label-caps text-mustard">
-          {labels.brand}
-        </p>
-        <h1 className="mt-3 font-headline-md text-headline-md text-primary">
-          {copy.name}
-        </h1>
-        <p className="mt-3 mb-8 font-body-md text-body-md text-on-surface-variant">
-          {copy.login.help}
-        </p>
-        <LoginForm configured={isStudioPasswordConfigured()} copy={copy} />
-      </div>
-    </div>
+    <AuthShell
+      labels={labels}
+      locale={locale}
+      title={copy.name}
+      help={copy.login.help}
+    >
+      <LoginForm
+        copy={copy}
+        showSignupLink={signupOpen}
+        resetSuccess={params.reset === "1"}
+      />
+    </AuthShell>
   );
 }

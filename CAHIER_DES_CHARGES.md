@@ -25,7 +25,7 @@ Dernière mise à jour : 2026-08-24
 | In situ / Publications | Ben via `/atelier` | 2026-08-24 |
 | `/atelier` | **Atelier de Ben** (privé), pas une copie publique du site | 2026-08-24 |
 | Install sur le site `/` | **Non** : pas de manifest sur le site web | 2026-08-24 |
-| Auth atelier | Plus tard | 2026-08-24 |
+| Auth atelier | Compte e-mail + mot de passe, reset par e-mail | 2026-08-30 |
 | Langue atelier | **FR / EN**, même cookie que le site (EN par défaut) | 2026-08-24 |
 | Photos uploadées | Local `public/uploads` ; Vercel Blob si `BLOB_READ_WRITE_TOKEN` | 2026-08-24 |
 | Expositions | Abandonné ; remplacé par **In situ** | 2026-08-21 |
@@ -56,7 +56,7 @@ Dernière mise à jour : 2026-08-24
 - Accueil : cartes visuelles des sections du site.
 - Chaque section : changer la photo, changer le texte, montrer / cacher.
 - Pas de jargon.
-- Connexion : plus tard. L’atelier est ouvert pour travailler le contenu.
+- Compte : `/atelier/inscription` (premier compte, puis `ALLOW_SIGNUP=false`), `/atelier/connexion`, reset via `/atelier/mot-de-passe-oublie`.
 
 ## 6. Roadmap
 
