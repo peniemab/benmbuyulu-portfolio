@@ -19,6 +19,7 @@ const prisma = new PrismaClient({ adapter });
 const artworks = [
   {
     title: "Mi-femme, mi-ange",
+    titleEn: "Half-Woman, Half-Angel",
     slug: "mi-femme-mi-ange",
     category: "SCULPTURE" as const,
     medium: "Sculpture",
@@ -35,6 +36,7 @@ const artworks = [
   },
   {
     title: "Le voyage de l’âme voilée",
+    titleEn: "The Journey of the Veiled Soul",
     slug: "voyage-ame-voile",
     category: "PAINTING" as const,
     medium: "Peinture",
@@ -51,6 +53,7 @@ const artworks = [
   },
   {
     title: "Sous le voile du silence",
+    titleEn: "Under the Veil of Silence",
     slug: "sous-le-voile-du-silence",
     category: "SCULPTURE" as const,
     medium: "Sculpture",
@@ -67,6 +70,7 @@ const artworks = [
   },
   {
     title: "L’énigme du voile",
+    titleEn: "The Enigma of the Veil",
     slug: "enigme-du-voile",
     category: "PAINTING" as const,
     medium: "Peinture",
@@ -83,6 +87,7 @@ const artworks = [
   },
   {
     title: "Esclaves du sexe",
+    titleEn: "Sex Slaves",
     slug: "esclaves-du-sexe",
     category: "PAINTING" as const,
     medium: "Peinture",
@@ -99,6 +104,7 @@ const artworks = [
   },
   {
     title: "Aveuglément volontaire",
+    titleEn: "Willful Blindness",
     slug: "aveuglement-volontaire",
     category: "PAINTING" as const,
     medium: "Peinture",
@@ -108,13 +114,14 @@ const artworks = [
     description:
       "Acrylique sur toile : figure au bandeau rouge, mains sur les yeux.",
     colSpan: 5,
-    aspectRatio: "3/4",
+    aspectRatio: "1024/948",
     stretch: false,
     sortOrder: 6,
     published: true,
   },
   {
     title: "Le regard complice",
+    titleEn: "The Complicit Gaze",
     slug: "le-regard-complice",
     category: "PAINTING" as const,
     medium: "Peinture",
@@ -134,7 +141,9 @@ const artworks = [
 const inSituWorks = [
   {
     title: "Ben Mbuyulu devant le tableau Le regard complice",
+    titleEn: "Ben Mbuyulu in front of the painting The Complicit Gaze",
     place: "Kinshasa (RDC)",
+    placeEn: "Kinshasa (DRC)",
     year: 2026,
     imageUrl: "/artworks/le-regard-complice-insitu.jpg",
     description: "",
@@ -191,7 +200,7 @@ async function main() {
       heroImageAltFr:
         "Esclaves du sexe : Ben Mbuyulu, peinture, Mystère du voile",
       heroImageAltEn:
-        "Esclaves du sexe : Ben Mbuyulu, painting, Mystery of the Veil",
+        "Sex Slaves: Ben Mbuyulu, painting, Mystery of the Veil",
       portraitUrl: "/artist/ben-mbuyulu.jpg",
       bioLeadFr:
         "Peintre et sculpteur, Ben Mbuyulu mène une recherche autour du voile comme symbole : ce qui cache, protège, révèle ou transforme.",

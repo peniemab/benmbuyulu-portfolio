@@ -27,7 +27,9 @@ export default async function EditInSituPage({
         item={{
           id: item.id,
           title: item.title,
+          titleEn: item.titleEn,
           place: item.place,
+          placeEn: item.placeEn,
           year: item.year,
           description: item.description,
           imageUrl: item.imageUrl,

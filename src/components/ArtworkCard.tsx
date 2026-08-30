@@ -28,7 +28,7 @@ export function ArtworkCard({ artwork, labels, className = "" }: ArtworkCardProp
     artwork.category === "SCULPTURE" ? labels.sculpture : labels.painting;
 
   return (
-    <article className={`group col-span-1 ${spanClass} ${className}`}>
+    <article className={`group col-span-1 flex flex-col items-center ${spanClass} ${className}`}>
       <div
         className="relative w-full overflow-hidden"
         style={{ aspectRatio: ratio }}
@@ -43,7 +43,7 @@ export function ArtworkCard({ artwork, labels, className = "" }: ArtworkCardProp
           }`}
         />
       </div>
-      <div className="mt-4 text-center">
+      <div className="mt-4 w-full text-center">
         <h3 className="font-headline-sm text-headline-sm text-primary">
           {artwork.title}
           <span className="text-on-surface-variant font-body-md text-body-md">

@@ -144,6 +144,7 @@ export async function saveArtworkAction(
   await requireStudio();
   const id = text(formData, "id");
   const title = text(formData, "title");
+  const titleEn = text(formData, "titleEn");
   const year = yearValue(formData, "year");
   const category = text(formData, "category") === "SCULPTURE" ? "SCULPTURE" : "PAINTING";
 
@@ -159,6 +160,7 @@ export async function saveArtworkAction(
         where: { id },
         data: {
           title,
+          titleEn,
           year,
           category,
           medium: category === "SCULPTURE" ? "Sculpture" : "Peinture",
@@ -179,6 +181,7 @@ export async function saveArtworkAction(
     await prisma.artwork.create({
       data: {
         title,
+        titleEn,
         slug: await uniqueArtworkSlug(slugify(title)),
         category,
         medium: category === "SCULPTURE" ? "Sculpture" : "Peinture",
@@ -214,6 +217,7 @@ export async function saveInSituAction(
   await requireStudio();
   const id = text(formData, "id");
   const title = text(formData, "title");
+  const titleEn = text(formData, "titleEn");
   if (!title) return fail("titleRequired");
 
   try {
@@ -225,7 +229,9 @@ export async function saveInSituAction(
         where: { id },
         data: {
           title,
+          titleEn,
           place: text(formData, "place"),
+          placeEn: text(formData, "placeEn"),
           year: yearValue(formData, "year"),
           description: text(formData, "description"),
           imageUrl,
@@ -245,7 +251,9 @@ export async function saveInSituAction(
     await prisma.inSituWork.create({
       data: {
         title,
+        titleEn,
         place: text(formData, "place"),
+        placeEn: text(formData, "placeEn"),
         year: yearValue(formData, "year"),
         description: text(formData, "description"),
         imageUrl,
@@ -277,6 +285,7 @@ export async function savePublicationAction(
   await requireStudio();
   const id = text(formData, "id");
   const title = text(formData, "title");
+  const titleEn = text(formData, "titleEn");
   if (!title) return fail("titleRequired");
 
   try {
@@ -293,7 +302,9 @@ export async function savePublicationAction(
         where: { id },
         data: {
           title,
+          titleEn,
           source: text(formData, "source"),
+          sourceEn: text(formData, "sourceEn"),
           year: yearValue(formData, "year"),
           url: text(formData, "url"),
           imageUrl,
@@ -313,7 +324,9 @@ export async function savePublicationAction(
     await prisma.publication.create({
       data: {
         title,
+        titleEn,
         source: text(formData, "source"),
+        sourceEn: text(formData, "sourceEn"),
         year: yearValue(formData, "year"),
         url: text(formData, "url"),
         imageUrl,

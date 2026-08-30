@@ -17,6 +17,7 @@ import type { AtelierCopy } from "@/lib/atelier-copy";
 type ArtworkValues = {
   id?: string;
   title: string;
+  titleEn: string;
   year: number;
   category: "PAINTING" | "SCULPTURE";
   imageUrl?: string;
@@ -47,9 +48,14 @@ export function ArtworkForm({
       />
       <AtelierField
         name="title"
-        label={copy.common.title}
+        label={copy.common.titleFr}
         required
         defaultValue={artwork?.title ?? ""}
+      />
+      <AtelierField
+        name="titleEn"
+        label={copy.common.titleEn}
+        defaultValue={artwork?.titleEn ?? ""}
       />
       <div className="max-w-[10rem]">
         <AtelierField

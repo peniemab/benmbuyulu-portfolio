@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import type { ArtworkCardData } from "@/lib/artworks";
+import type { ArtworkCardRaw } from "@/lib/artworks";
 
-export async function getPublishedArtworks(): Promise<ArtworkCardData[]> {
+export async function getPublishedArtworks(): Promise<ArtworkCardRaw[]> {
   try {
     return await prisma.artwork.findMany({
       where: { published: true },
@@ -9,6 +9,7 @@ export async function getPublishedArtworks(): Promise<ArtworkCardData[]> {
       select: {
         id: true,
         title: true,
+        titleEn: true,
         slug: true,
         category: true,
         medium: true,

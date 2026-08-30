@@ -89,6 +89,11 @@ export type InSituCard = {
   description: string;
 };
 
+export type InSituCardRaw = InSituCard & {
+  titleEn: string;
+  placeEn: string;
+};
+
 export type PublicationCard = {
   id: string;
   title: string;
@@ -98,7 +103,12 @@ export type PublicationCard = {
   imageUrl: string;
 };
 
-export async function getPublishedInSitu(): Promise<InSituCard[]> {
+export type PublicationCardRaw = PublicationCard & {
+  titleEn: string;
+  sourceEn: string;
+};
+
+export async function getPublishedInSitu(): Promise<InSituCardRaw[]> {
   try {
     if (typeof prisma.inSituWork?.findMany !== "function") return [];
     return await prisma.inSituWork.findMany({
@@ -107,7 +117,9 @@ export async function getPublishedInSitu(): Promise<InSituCard[]> {
       select: {
         id: true,
         title: true,
+        titleEn: true,
         place: true,
+        placeEn: true,
         year: true,
         imageUrl: true,
         description: true,
@@ -118,7 +130,7 @@ export async function getPublishedInSitu(): Promise<InSituCard[]> {
   }
 }
 
-export async function getPublishedPublications(): Promise<PublicationCard[]> {
+export async function getPublishedPublications(): Promise<PublicationCardRaw[]> {
   try {
     if (typeof prisma.publication?.findMany !== "function") return [];
     return await prisma.publication.findMany({
@@ -127,7 +139,9 @@ export async function getPublishedPublications(): Promise<PublicationCard[]> {
       select: {
         id: true,
         title: true,
+        titleEn: true,
         source: true,
+        sourceEn: true,
         year: true,
         url: true,
         imageUrl: true,

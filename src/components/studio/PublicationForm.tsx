@@ -16,7 +16,9 @@ import type { AtelierCopy } from "@/lib/atelier-copy";
 type Values = {
   id?: string;
   title: string;
+  titleEn: string;
   source: string;
+  sourceEn: string;
   year: number | null;
   url: string;
   imageUrl?: string;
@@ -44,8 +46,10 @@ export function PublicationForm({
         label={copy.publications.image}
         copy={copy.photo}
       />
-      <AtelierField name="title" label={copy.common.title} defaultValue={item?.title} />
-      <AtelierField name="source" label={copy.publications.source} defaultValue={item?.source} />
+      <AtelierField name="title" label={copy.common.titleFr} defaultValue={item?.title} />
+      <AtelierField name="titleEn" label={copy.common.titleEn} defaultValue={item?.titleEn} />
+      <AtelierField name="source" label={copy.common.sourceFr} defaultValue={item?.source} />
+      <AtelierField name="sourceEn" label={copy.common.sourceEn} defaultValue={item?.sourceEn} />
       <div className="max-w-[10rem]">
         <AtelierField
           name="year"

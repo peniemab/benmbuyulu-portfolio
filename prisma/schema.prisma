@@ -26,6 +26,7 @@ model User {
 model Artwork {
   id          String   @id @default(cuid())
   title       String
+  titleEn     String   @default("")
   slug        String   @unique
   category    Category
   medium      String
@@ -73,7 +74,9 @@ model SiteContent {
 model InSituWork {
   id          String   @id @default(cuid())
   title       String
+  titleEn     String   @default("")
   place       String   @default("")
+  placeEn     String   @default("")
   year        Int?
   imageUrl    String
   description String   @default("")
@@ -88,7 +91,9 @@ model InSituWork {
 model Publication {
   id        String   @id @default(cuid())
   title     String
+  titleEn   String   @default("")
   source    String   @default("")
+  sourceEn  String   @default("")
   year      Int?
   url       String   @default("")
   imageUrl  String   @default("")

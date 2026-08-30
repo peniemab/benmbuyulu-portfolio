@@ -16,7 +16,9 @@ import type { AtelierCopy } from "@/lib/atelier-copy";
 type Values = {
   id?: string;
   title: string;
+  titleEn: string;
   place: string;
+  placeEn: string;
   year: number | null;
   description: string;
   imageUrl?: string;
@@ -39,8 +41,10 @@ export function InSituForm({ item, copy }: { item?: Values; copy: AtelierCopy })
         required={isNew}
         copy={copy.photo}
       />
-      <AtelierField name="title" label={copy.common.title} defaultValue={item?.title} />
-      <AtelierField name="place" label={copy.inSitu.place} defaultValue={item?.place} />
+      <AtelierField name="title" label={copy.common.titleFr} defaultValue={item?.title} />
+      <AtelierField name="titleEn" label={copy.common.titleEn} defaultValue={item?.titleEn} />
+      <AtelierField name="place" label={copy.common.placeFr} defaultValue={item?.place} />
+      <AtelierField name="placeEn" label={copy.common.placeEn} defaultValue={item?.placeEn} />
       <div className="max-w-[10rem]">
         <AtelierField
           name="year"

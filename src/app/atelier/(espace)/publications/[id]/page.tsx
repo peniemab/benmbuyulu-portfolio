@@ -27,7 +27,9 @@ export default async function EditPublicationPage({
         item={{
           id: item.id,
           title: item.title,
+          titleEn: item.titleEn,
           source: item.source,
+          sourceEn: item.sourceEn,
           year: item.year,
           url: item.url,
           imageUrl: item.imageUrl,

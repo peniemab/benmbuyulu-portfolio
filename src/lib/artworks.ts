@@ -18,6 +18,8 @@ export type ArtworkCardData = Pick<
   | "stretch"
 >;
 
+export type ArtworkCardRaw = ArtworkCardData & Pick<Artwork, "titleEn">;
+
 export function filterArtworks(
   artworks: ArtworkCardData[],
   filter: GalleryFilter,

@@ -1,5 +1,6 @@
 import { getPublishedArtworks } from "@/lib/get-artworks";
 import { getDictionary, getLocale } from "@/i18n/get-dictionary";
+import { pickLocalized } from "@/lib/localized";
 import {
   applySiteContent,
   getPublishedInSitu,
@@ -10,12 +11,29 @@ import {
 export async function getPortfolioPageData() {
   const dict = await getDictionary();
   const locale = await getLocale();
-  const [artworks, site, inSitu, publications] = await Promise.all([
+  const [rawArtworks, site, rawInSitu, rawPublications] = await Promise.all([
     getPublishedArtworks(),
     getSiteContent(),
     getPublishedInSitu(),
     getPublishedPublications(),
   ]);
+
+  const artworks = rawArtworks.map(({ titleEn, ...artwork }) => ({
+    ...artwork,
+    title: pickLocalized(artwork.title, titleEn, locale),
+  }));
+
+  const inSitu = rawInSitu.map(({ titleEn, placeEn, ...item }) => ({
+    ...item,
+    title: pickLocalized(item.title, titleEn, locale),
+    place: pickLocalized(item.place, placeEn, locale),
+  }));
+
+  const publications = rawPublications.map(({ titleEn, sourceEn, ...item }) => ({
+    ...item,
+    title: pickLocalized(item.title, titleEn, locale),
+    source: pickLocalized(item.source, sourceEn, locale),
+  }));
 
   return {
     artworks,

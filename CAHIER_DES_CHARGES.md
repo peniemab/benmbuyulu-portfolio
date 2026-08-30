@@ -72,6 +72,6 @@ Dernière mise à jour : 2026-08-24
 
 ## 8. Notes
 
-- Les **titres d’œuvres** restent dans leur forme officielle (souvent FR), même en UI EN.
+- Les **titres d’œuvres**, fiches in situ et publications ont une version **FR** et **EN** ; le site affiche celle qui correspond à la langue active (repli sur l’autre langue si une traduction manque).
 - Les labels UI (filtres, boutons, etc.) suivent la langue active du visiteur.
 - Ce fichier se met à jour quand une décision change.

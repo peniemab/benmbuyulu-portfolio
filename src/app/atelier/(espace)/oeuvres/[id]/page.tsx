@@ -27,6 +27,7 @@ export default async function EditArtworkPage({
         artwork={{
           id: artwork.id,
           title: artwork.title,
+          titleEn: artwork.titleEn,
           year: artwork.year,
           category: artwork.category,
           imageUrl: artwork.imageUrl,

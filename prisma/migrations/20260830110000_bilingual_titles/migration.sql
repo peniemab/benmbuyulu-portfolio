@@ -1,0 +1,10 @@
+-- AlterTable
+ALTER TABLE "Artwork" ADD COLUMN "titleEn" TEXT NOT NULL DEFAULT '';
+
+-- AlterTable
+ALTER TABLE "InSituWork" ADD COLUMN "titleEn" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "InSituWork" ADD COLUMN "placeEn" TEXT NOT NULL DEFAULT '';
+
+-- AlterTable
+ALTER TABLE "Publication" ADD COLUMN "titleEn" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "Publication" ADD COLUMN "sourceEn" TEXT NOT NULL DEFAULT '';
