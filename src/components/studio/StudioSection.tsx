@@ -5,6 +5,7 @@ type Props = {
   title: string;
   help: string;
   previewHref?: string;
+  previewLabel?: string;
   wide?: boolean;
 };
 
@@ -13,6 +14,7 @@ export function StudioSection({
   title,
   help,
   previewHref,
+  previewLabel,
   wide = false,
 }: Props) {
   return (
@@ -21,7 +23,7 @@ export function StudioSection({
         <h1 className="font-headline-md text-headline-md text-primary">{title}</h1>
         {previewHref ? (
           <AtelierButton href={previewHref} target="_blank" rel="noreferrer" variant="outline">
-            Voir sur le site
+            {previewLabel}
           </AtelierButton>
         ) : null}
       </div>

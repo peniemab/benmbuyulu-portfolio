@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { PublicationForm } from "@/components/studio/PublicationForm";
 import { StudioSection } from "@/components/studio/StudioSection";
+import { getAtelierCopy } from "@/lib/atelier-copy";
 import { prisma } from "@/lib/prisma";
 import { requireStudio } from "@/lib/studio-guard";
 
@@ -13,15 +14,16 @@ export default async function EditPublicationPage({
 }) {
   await requireStudio();
   const { id } = await params;
-  const item = await prisma.publication.findUnique({ where: { id } });
+  const [copy, item] = await Promise.all([
+    getAtelierCopy(),
+    prisma.publication.findUnique({ where: { id } }),
+  ]);
   if (!item) notFound();
 
   return (
-    <StudioSection
-      title={item.title}
-      help="Changez le texte, l’image, ou cachez cette publication du site."
-    >
+    <StudioSection title={item.title} help={copy.publications.editHelp}>
       <PublicationForm
+        copy={copy}
         item={{
           id: item.id,
           title: item.title,

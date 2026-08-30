@@ -1,6 +1,7 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { StudioSection } from "@/components/studio/StudioSection";
 import { AtelierButton } from "@/components/studio/ui";
+import { getAtelierCopy } from "@/lib/atelier-copy";
 import { prisma } from "@/lib/prisma";
 import { requireStudio } from "@/lib/studio-guard";
 
@@ -8,30 +9,34 @@ export const dynamic = "force-dynamic";
 
 export default async function StudioArtworksPage() {
   await requireStudio();
-  const artworks = await prisma.artwork.findMany({
-    orderBy: { sortOrder: "asc" },
-  });
+  const [copy, artworks] = await Promise.all([
+    getAtelierCopy(),
+    prisma.artwork.findMany({
+      orderBy: { sortOrder: "asc" },
+    }),
+  ]);
 
   return (
     <StudioSection
-      title="Œuvres"
-      help="Touchez une œuvre pour changer sa photo, son titre ou son année."
+      title={copy.sections.oeuvres.label}
+      help={copy.sections.oeuvres.help}
       previewHref="/#oeuvres"
+      previewLabel={copy.seeOnSite}
       wide
     >
       {artworks.length === 0 ? (
         <div className="flex flex-col items-start gap-6 border border-dashed border-outline-variant px-6 py-16">
           <p className="font-body-lg text-body-lg text-on-surface-variant">
-            Aucune œuvre pour l’instant.
+            {copy.artworks.empty}
           </p>
           <AtelierButton href="/atelier/oeuvres/nouveau">
-            Ajouter une œuvre
+            {copy.artworks.add}
           </AtelierButton>
         </div>
       ) : (
         <>
           <AtelierButton href="/atelier/oeuvres/nouveau">
-            Ajouter une œuvre
+            {copy.artworks.add}
           </AtelierButton>
           <ul className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3">
             {artworks.map((artwork) => (
@@ -46,7 +51,7 @@ export default async function StudioArtworksPage() {
                     />
                     {!artwork.published ? (
                       <span className="absolute left-2 top-2 bg-black/80 px-2 py-1 font-label-caps text-[0.65rem] tracking-wide text-white">
-                        Cachée
+                        {copy.common.hidden}
                       </span>
                     ) : null}
                   </div>

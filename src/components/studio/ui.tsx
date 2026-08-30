@@ -88,14 +88,16 @@ export function AtelierButton({
 export function AtelierBack({
   href,
   label,
+  ariaPrefix,
 }: {
   href: string;
   label: string;
+  ariaPrefix: string;
 }) {
   return (
     <Link
       href={href}
-      aria-label={`Retour vers ${label}`}
+      aria-label={`${ariaPrefix} ${label}`}
       className="inline-flex min-h-10 items-center gap-2 text-primary transition-opacity duration-300 hover:opacity-70"
     >
       <span className="flex size-8 items-center justify-center bg-mustard text-primary">

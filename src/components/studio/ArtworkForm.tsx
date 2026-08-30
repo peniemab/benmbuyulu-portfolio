@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useActionState } from "react";
 import {
@@ -12,6 +12,7 @@ import { PhotoField } from "@/components/studio/PhotoField";
 import { SaveBar } from "@/components/studio/SaveBar";
 import { VisibleToggle } from "@/components/studio/VisibleToggle";
 import { AtelierField } from "@/components/studio/ui";
+import type { AtelierCopy } from "@/lib/atelier-copy";
 
 type ArtworkValues = {
   id?: string;
@@ -22,7 +23,13 @@ type ArtworkValues = {
   published: boolean;
 };
 
-export function ArtworkForm({ artwork }: { artwork?: ArtworkValues }) {
+export function ArtworkForm({
+  artwork,
+  copy,
+}: {
+  artwork?: ArtworkValues;
+  copy: AtelierCopy;
+}) {
   const [state, action, pending] = useActionState<FormState, FormData>(
     saveArtworkAction,
     {},
@@ -34,38 +41,40 @@ export function ArtworkForm({ artwork }: { artwork?: ArtworkValues }) {
       {artwork?.id ? <input type="hidden" name="id" value={artwork.id} /> : null}
       <PhotoField
         currentUrl={artwork?.imageUrl}
-        label="Photo de l’œuvre"
+        label={copy.artworks.photo}
         required={isNew}
+        copy={copy.photo}
       />
       <AtelierField
         name="title"
-        label="Titre"
+        label={copy.common.title}
         required
         defaultValue={artwork?.title ?? ""}
       />
       <div className="max-w-[10rem]">
         <AtelierField
           name="year"
-          label="Année"
+          label={copy.common.year}
           type="number"
           required
           defaultValue={String(artwork?.year ?? new Date().getFullYear())}
         />
       </div>
-      <CategoryPicker defaultValue={artwork?.category} />
-      <VisibleToggle defaultChecked={artwork?.published ?? true} />
+      <CategoryPicker defaultValue={artwork?.category} copy={copy.category} />
+      <VisibleToggle defaultChecked={artwork?.published ?? true} copy={copy.visibility} />
       <SaveBar
         pending={pending}
         error={state.error}
         ok={state.ok}
-        saveLabel={isNew ? "Ajouter l’œuvre" : "Enregistrer"}
+        saveLabel={isNew ? copy.artworks.add : copy.common.save}
+        copy={copy}
       />
       {artwork?.id ? (
         <DeleteButton
           action={deleteArtworkAction}
           id={artwork.id}
-          label="Supprimer cette œuvre"
-          confirmMessage="Supprimer cette œuvre du site ? Cette action est définitive."
+          label={copy.artworks.delete}
+          confirmMessage={copy.artworks.deleteConfirm}
         />
       ) : null}
     </form>

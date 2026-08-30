@@ -1,10 +1,17 @@
-﻿"use client";
+"use client";
 
 import { useActionState } from "react";
 import { loginAction, type LoginState } from "@/app/atelier/actions";
 import { AtelierButton, AtelierField } from "@/components/studio/ui";
+import type { AtelierCopy } from "@/lib/atelier-copy";
 
-export function LoginForm({ configured }: { configured: boolean }) {
+export function LoginForm({
+  configured,
+  copy,
+}: {
+  configured: boolean;
+  copy: AtelierCopy;
+}) {
   const [state, action, pending] = useActionState<LoginState, FormData>(
     loginAction,
     null,
@@ -13,7 +20,7 @@ export function LoginForm({ configured }: { configured: boolean }) {
   if (!configured) {
     return (
       <p className="font-body-md text-body-md text-on-surface-variant">
-        L’atelier n’est pas encore ouvert. Le mot de passe n’a pas été réglé.
+        {copy.login.notConfigured}
       </p>
     );
   }
@@ -22,7 +29,7 @@ export function LoginForm({ configured }: { configured: boolean }) {
     <form action={action} className="flex flex-col gap-5">
       <AtelierField
         name="password"
-        label="Mot de passe"
+        label={copy.login.password}
         type="password"
         required
         autoComplete="current-password"
@@ -33,7 +40,7 @@ export function LoginForm({ configured }: { configured: boolean }) {
         </p>
       ) : null}
       <AtelierButton type="submit" disabled={pending} className="w-full">
-        {pending ? "Ouverture…" : "Entrer"}
+        {pending ? copy.login.opening : copy.login.enter}
       </AtelierButton>
     </form>
   );

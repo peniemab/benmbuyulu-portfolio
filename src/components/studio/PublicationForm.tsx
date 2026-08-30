@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useActionState } from "react";
 import {
@@ -11,6 +11,7 @@ import { PhotoField } from "@/components/studio/PhotoField";
 import { SaveBar } from "@/components/studio/SaveBar";
 import { VisibleToggle } from "@/components/studio/VisibleToggle";
 import { AtelierField } from "@/components/studio/ui";
+import type { AtelierCopy } from "@/lib/atelier-copy";
 
 type Values = {
   id?: string;
@@ -22,7 +23,13 @@ type Values = {
   published: boolean;
 };
 
-export function PublicationForm({ item }: { item?: Values }) {
+export function PublicationForm({
+  item,
+  copy,
+}: {
+  item?: Values;
+  copy: AtelierCopy;
+}) {
   const [state, action, pending] = useActionState<FormState, FormData>(
     savePublicationAction,
     {},
@@ -32,35 +39,40 @@ export function PublicationForm({ item }: { item?: Values }) {
   return (
     <form action={action} className="space-y-8">
       {item?.id ? <input type="hidden" name="id" value={item.id} /> : null}
-      <PhotoField currentUrl={item?.imageUrl || undefined} label="Image (facultatif)" />
-      <AtelierField name="title" label="Titre" defaultValue={item?.title} />
-      <AtelierField name="source" label="Paru dans" defaultValue={item?.source} />
+      <PhotoField
+        currentUrl={item?.imageUrl || undefined}
+        label={copy.publications.image}
+        copy={copy.photo}
+      />
+      <AtelierField name="title" label={copy.common.title} defaultValue={item?.title} />
+      <AtelierField name="source" label={copy.publications.source} defaultValue={item?.source} />
       <div className="max-w-[10rem]">
         <AtelierField
           name="year"
-          label="Année"
+          label={copy.common.year}
           type="number"
           defaultValue={item?.year ? String(item.year) : ""}
         />
       </div>
       <AtelierField
         name="url"
-        label="Lien internet (si l’article est en ligne)"
+        label={copy.publications.url}
         defaultValue={item?.url}
       />
-      <VisibleToggle defaultChecked={item?.published ?? true} />
+      <VisibleToggle defaultChecked={item?.published ?? true} copy={copy.visibility} />
       <SaveBar
         pending={pending}
         error={state.error}
         ok={state.ok}
-        saveLabel={isNew ? "Ajouter" : "Enregistrer"}
+        saveLabel={isNew ? copy.common.add : copy.common.save}
+        copy={copy}
       />
       {item?.id ? (
         <DeleteButton
           action={deletePublicationAction}
           id={item.id}
-          label="Supprimer cette publication"
-          confirmMessage="Supprimer cette publication du site ?"
+          label={copy.publications.delete}
+          confirmMessage={copy.publications.deleteConfirm}
         />
       ) : null}
     </form>

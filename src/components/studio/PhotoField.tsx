@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { AtelierCopy } from "@/lib/atelier-copy";
 
 type Props = {
   name?: string;
@@ -8,6 +9,7 @@ type Props = {
   label: string;
   required?: boolean;
   aspect?: "wide" | "portrait" | "square";
+  copy: AtelierCopy["photo"];
 };
 
 const ASPECT = {
@@ -22,6 +24,7 @@ export function PhotoField({
   label,
   required = false,
   aspect = "portrait",
+  copy,
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState(currentUrl ?? "");
@@ -31,7 +34,7 @@ export function PhotoField({
   }, [currentUrl]);
 
   const empty = !preview;
-  const action = empty ? "Ajouter une photo" : "Changer la photo";
+  const action = empty ? copy.add : copy.change;
 
   return (
     <div className="space-y-2">
@@ -63,7 +66,7 @@ export function PhotoField({
           <img src={preview} alt="" className="size-full object-cover" />
         ) : (
           <span className="flex size-full items-center justify-center px-6 text-center font-body-md text-body-md text-on-surface-variant">
-            Touchez pour ajouter une photo
+            {copy.tap}
           </span>
         )}
         <span className="absolute inset-x-0 bottom-0 bg-mustard px-4 py-3 font-label-caps text-label-caps text-primary transition-opacity duration-300 group-hover:opacity-90">

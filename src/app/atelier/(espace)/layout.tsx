@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { StudioChrome } from "@/components/studio/StudioChrome";
+import { getDictionary, getLocale } from "@/i18n/get-dictionary";
 import { requireStudio } from "@/lib/studio-guard";
 
 export const metadata: Metadata = {
@@ -13,5 +14,15 @@ export default async function StudioEspaceLayout({
   children: React.ReactNode;
 }) {
   await requireStudio();
-  return <StudioChrome>{children}</StudioChrome>;
+  const [labels, locale] = await Promise.all([getDictionary(), getLocale()]);
+  return (
+    <StudioChrome
+      key={locale}
+      copy={labels.atelier}
+      locale={locale}
+      localeLabels={labels.locale}
+    >
+      {children}
+    </StudioChrome>
+  );
 }

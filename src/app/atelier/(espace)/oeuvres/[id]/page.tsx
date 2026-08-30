@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { ArtworkForm } from "@/components/studio/ArtworkForm";
 import { StudioSection } from "@/components/studio/StudioSection";
+import { getAtelierCopy } from "@/lib/atelier-copy";
 import { prisma } from "@/lib/prisma";
 import { requireStudio } from "@/lib/studio-guard";
 
@@ -13,15 +14,16 @@ export default async function EditArtworkPage({
 }) {
   await requireStudio();
   const { id } = await params;
-  const artwork = await prisma.artwork.findUnique({ where: { id } });
+  const [copy, artwork] = await Promise.all([
+    getAtelierCopy(),
+    prisma.artwork.findUnique({ where: { id } }),
+  ]);
   if (!artwork) notFound();
 
   return (
-    <StudioSection
-      title={artwork.title}
-      help="Changez la photo, le titre, l’année, ou cachez l’œuvre du site."
-    >
+    <StudioSection title={artwork.title} help={copy.artworks.editHelp}>
       <ArtworkForm
+        copy={copy}
         artwork={{
           id: artwork.id,
           title: artwork.title,

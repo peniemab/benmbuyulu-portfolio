@@ -1,6 +1,7 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { StudioSection } from "@/components/studio/StudioSection";
 import { AtelierButton } from "@/components/studio/ui";
+import { getAtelierCopy } from "@/lib/atelier-copy";
 import { prisma } from "@/lib/prisma";
 import { requireStudio } from "@/lib/studio-guard";
 
@@ -8,32 +9,36 @@ export const dynamic = "force-dynamic";
 
 export default async function StudioPublicationsPage() {
   await requireStudio();
-  const items = await prisma.publication
-    .findMany({
-      orderBy: { sortOrder: "asc" },
-    })
-    .catch(() => []);
+  const [copy, items] = await Promise.all([
+    getAtelierCopy(),
+    prisma.publication
+      .findMany({
+        orderBy: { sortOrder: "asc" },
+      })
+      .catch(() => []),
+  ]);
 
   return (
     <StudioSection
-      title="Publications"
-      help="Articles, catalogues, presse."
+      title={copy.sections.publications.label}
+      help={copy.sections.publications.help}
       previewHref="/#publications"
+      previewLabel={copy.seeOnSite}
       wide
     >
       {items.length === 0 ? (
         <div className="flex flex-col items-start gap-6 border border-dashed border-outline-variant px-6 py-16">
           <p className="font-body-lg text-body-lg text-on-surface-variant">
-            Pas encore de publication.
+            {copy.publications.empty}
           </p>
           <AtelierButton href="/atelier/publications/nouveau">
-            Ajouter une publication
+            {copy.publications.add}
           </AtelierButton>
         </div>
       ) : (
         <>
           <AtelierButton href="/atelier/publications/nouveau">
-            Ajouter une publication
+            {copy.publications.add}
           </AtelierButton>
           <ul className="mt-10 flex flex-col gap-4">
             {items.map((item) => (
@@ -49,7 +54,7 @@ export default async function StudioPublicationsPage() {
                     </div>
                   ) : (
                     <div className="flex size-24 shrink-0 items-center justify-center bg-surface-container font-label-caps text-[0.65rem] text-on-surface-variant">
-                      Texte
+                      {copy.common.text}
                     </div>
                   )}
                   <div className="min-w-0 py-3 pr-3">
@@ -58,7 +63,7 @@ export default async function StudioPublicationsPage() {
                     </p>
                     <p className="mt-1 font-body-md text-[0.9rem] text-on-surface-variant">
                       {[item.source, item.year].filter(Boolean).join(" · ")}
-                      {!item.published ? " · Cachée" : ""}
+                      {!item.published ? ` · ${copy.common.hidden}` : ""}
                     </p>
                   </div>
                 </Link>

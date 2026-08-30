@@ -1,6 +1,7 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { StudioSection } from "@/components/studio/StudioSection";
 import { AtelierButton } from "@/components/studio/ui";
+import { getAtelierCopy } from "@/lib/atelier-copy";
 import { prisma } from "@/lib/prisma";
 import { requireStudio } from "@/lib/studio-guard";
 
@@ -8,32 +9,36 @@ export const dynamic = "force-dynamic";
 
 export default async function StudioInSituPage() {
   await requireStudio();
-  const items = await prisma.inSituWork
-    .findMany({
-      orderBy: { sortOrder: "asc" },
-    })
-    .catch(() => []);
+  const [copy, items] = await Promise.all([
+    getAtelierCopy(),
+    prisma.inSituWork
+      .findMany({
+        orderBy: { sortOrder: "asc" },
+      })
+      .catch(() => []),
+  ]);
 
   return (
     <StudioSection
-      title="In situ"
-      help="Les photos de vos œuvres dans des lieux."
+      title={copy.sections.inSitu.label}
+      help={copy.sections.inSitu.help}
       previewHref="/#in-situ"
+      previewLabel={copy.seeOnSite}
       wide
     >
       {items.length === 0 ? (
         <div className="flex flex-col items-start gap-6 border border-dashed border-outline-variant px-6 py-16">
           <p className="font-body-lg text-body-lg text-on-surface-variant">
-            Pas encore de photo de lieu. Ajoutez-en une quand vous êtes prêt.
+            {copy.inSitu.empty}
           </p>
           <AtelierButton href="/atelier/in-situ/nouveau">
-            Ajouter une photo
+            {copy.inSitu.add}
           </AtelierButton>
         </div>
       ) : (
         <>
           <AtelierButton href="/atelier/in-situ/nouveau">
-            Ajouter une photo
+            {copy.inSitu.add}
           </AtelierButton>
           <ul className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3">
             {items.map((item) => (
@@ -48,7 +53,7 @@ export default async function StudioInSituPage() {
                     />
                     {!item.published ? (
                       <span className="absolute left-2 top-2 bg-black/80 px-2 py-1 font-label-caps text-[0.65rem] tracking-wide text-white">
-                        Cachée
+                        {copy.common.hidden}
                       </span>
                     ) : null}
                   </div>

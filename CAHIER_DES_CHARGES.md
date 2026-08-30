@@ -1,4 +1,4 @@
-﻿# Cahier des charges — Portfolio Ben Mbuyulu
+# Cahier des charges — Portfolio Ben Mbuyulu
 
 Document vivant. À mettre à jour après chaque décision produit / technique.
 
@@ -9,7 +9,7 @@ Dernière mise à jour : 2026-08-24
 ## 1. Produit
 
 - Site web public (`/`) : le portfolio, pour tout le monde.
-- **Atelier** (`/atelier`) : l’espace privé de Ben (PWA installable), en français, pensé pour un non-dev.
+- **Atelier** (`/atelier`) : l’espace privé de Ben (PWA installable), bilingue FR / EN, pensé pour un non-dev.
 - Une seule page publique scrollable : Hero → Œuvres → Bio → In situ → Publications → Contact.
 - Pas de multi-tenant / SaaS pour le moment (reporté).
 
@@ -26,6 +26,7 @@ Dernière mise à jour : 2026-08-24
 | `/atelier` | **Atelier de Ben** (privé), pas une copie publique du site | 2026-08-24 |
 | Install sur le site `/` | **Non** : pas de manifest sur le site web | 2026-08-24 |
 | Auth atelier | Plus tard | 2026-08-24 |
+| Langue atelier | **FR / EN**, même cookie que le site (EN par défaut) | 2026-08-24 |
 | Photos uploadées | Local `public/uploads` ; Vercel Blob si `BLOB_READ_WRITE_TOKEN` | 2026-08-24 |
 | Expositions | Abandonné ; remplacé par **In situ** | 2026-08-21 |
 
@@ -51,7 +52,7 @@ Dernière mise à jour : 2026-08-24
 ## 5. Atelier (`/atelier`)
 
 - Page privée, **non indexée**, non liée dans le menu public.
-- Langue de l’interface : **français uniquement**.
+- Langue de l’interface : **FR / EN**, même cookie `locale` que le site public (EN par défaut).
 - Accueil : cartes visuelles des sections du site.
 - Chaque section : changer la photo, changer le texte, montrer / cacher.
 - Pas de jargon.

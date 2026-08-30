@@ -1,13 +1,23 @@
-﻿"use server";
+"use server";
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getAtelierCopy } from "@/lib/atelier-copy";
 import { prisma } from "@/lib/prisma";
 import { requireStudio } from "@/lib/studio-guard";
 import { saveImageFile, saveOptionalImage } from "@/lib/uploads";
 import { slugify } from "@/lib/slug";
 
 export type FormState = { error?: string; ok?: boolean };
+
+async function fail(
+  key: keyof Awaited<ReturnType<typeof getAtelierCopy>>["errors"],
+  caught?: unknown,
+): Promise<FormState> {
+  const copy = await getAtelierCopy();
+  if (caught instanceof Error) return { error: caught.message };
+  return { error: copy.errors[key] };
+}
 
 function revalidatePublic() {
   revalidatePath("/", "layout");
@@ -47,7 +57,7 @@ export async function saveHeroAction(
   await requireStudio();
   try {
     const current = await prisma.siteContent.findUnique({ where: { id: "main" } });
-    if (!current) return { error: "Le contenu du site n’est pas encore prêt." };
+    if (!current) return fail("notReady");
     const heroImageUrl = await saveOptionalImage(
       formData,
       "photo",
@@ -61,7 +71,7 @@ export async function saveHeroAction(
     revalidatePublic();
     return { ok: true };
   } catch (error) {
-    return { error: error instanceof Error ? error.message : "Enregistrement impossible." };
+    return fail("saveFailed", error);
   }
 }
 
@@ -72,7 +82,7 @@ export async function saveBioAction(
   await requireStudio();
   try {
     const current = await prisma.siteContent.findUnique({ where: { id: "main" } });
-    if (!current) return { error: "Le contenu du site n’est pas encore prêt." };
+    if (!current) return fail("notReady");
     const portraitUrl = await saveOptionalImage(
       formData,
       "photo",
@@ -98,7 +108,7 @@ export async function saveBioAction(
     revalidatePublic();
     return { ok: true };
   } catch (error) {
-    return { error: error instanceof Error ? error.message : "Enregistrement impossible." };
+    return fail("saveFailed", error);
   }
 }
 
@@ -110,7 +120,7 @@ export async function saveContactAction(
   try {
     const email = text(formData, "email");
     if (!email.includes("@")) {
-      return { error: "Indiquez une adresse e-mail complète." };
+      return fail("email");
     }
     await prisma.siteContent.update({
       where: { id: "main" },
@@ -123,7 +133,7 @@ export async function saveContactAction(
     revalidatePublic();
     return { ok: true };
   } catch (error) {
-    return { error: error instanceof Error ? error.message : "Enregistrement impossible." };
+    return fail("saveFailed", error);
   }
 }
 
@@ -137,13 +147,13 @@ export async function saveArtworkAction(
   const year = yearValue(formData, "year");
   const category = text(formData, "category") === "SCULPTURE" ? "SCULPTURE" : "PAINTING";
 
-  if (!title) return { error: "Donnez un titre à l’œuvre." };
-  if (!year) return { error: "Indiquez l’année (par exemple 2026)." };
+  if (!title) return fail("artworkTitle");
+  if (!year) return fail("artworkYear");
 
   try {
     if (id) {
       const current = await prisma.artwork.findUnique({ where: { id } });
-      if (!current) return { error: "Cette œuvre est introuvable." };
+      if (!current) return fail("artworkMissing");
       const imageUrl = await saveOptionalImage(formData, "photo", "artworks", current.imageUrl);
       await prisma.artwork.update({
         where: { id },
@@ -162,7 +172,7 @@ export async function saveArtworkAction(
 
     const photo = formData.get("photo");
     if (!(photo instanceof File) || photo.size === 0) {
-      return { error: "Ajoutez une photo de l’œuvre." };
+      return fail("artworkPhoto");
     }
     const imageUrl = await saveImageFile(photo, "artworks");
     const last = await prisma.artwork.findFirst({ orderBy: { sortOrder: "desc" } });
@@ -181,7 +191,7 @@ export async function saveArtworkAction(
       },
     });
   } catch (error) {
-    return { error: error instanceof Error ? error.message : "Enregistrement impossible." };
+    return fail("saveFailed", error);
   }
 
   revalidatePublic();
@@ -204,12 +214,12 @@ export async function saveInSituAction(
   await requireStudio();
   const id = text(formData, "id");
   const title = text(formData, "title");
-  if (!title) return { error: "Donnez un titre." };
+  if (!title) return fail("titleRequired");
 
   try {
     if (id) {
       const current = await prisma.inSituWork.findUnique({ where: { id } });
-      if (!current) return { error: "Cette fiche est introuvable." };
+      if (!current) return fail("itemMissing");
       const imageUrl = await saveOptionalImage(formData, "photo", "in-situ", current.imageUrl);
       await prisma.inSituWork.update({
         where: { id },
@@ -228,7 +238,7 @@ export async function saveInSituAction(
 
     const photo = formData.get("photo");
     if (!(photo instanceof File) || photo.size === 0) {
-      return { error: "Ajoutez une photo." };
+      return fail("photoRequired");
     }
     const imageUrl = await saveImageFile(photo, "in-situ");
     const last = await prisma.inSituWork.findFirst({ orderBy: { sortOrder: "desc" } });
@@ -244,7 +254,7 @@ export async function saveInSituAction(
       },
     });
   } catch (error) {
-    return { error: error instanceof Error ? error.message : "Enregistrement impossible." };
+    return fail("saveFailed", error);
   }
 
   revalidatePublic();
@@ -267,12 +277,12 @@ export async function savePublicationAction(
   await requireStudio();
   const id = text(formData, "id");
   const title = text(formData, "title");
-  if (!title) return { error: "Donnez un titre." };
+  if (!title) return fail("titleRequired");
 
   try {
     if (id) {
       const current = await prisma.publication.findUnique({ where: { id } });
-      if (!current) return { error: "Cette fiche est introuvable." };
+      if (!current) return fail("itemMissing");
       const imageUrl = await saveOptionalImage(
         formData,
         "photo",
@@ -312,7 +322,7 @@ export async function savePublicationAction(
       },
     });
   } catch (error) {
-    return { error: error instanceof Error ? error.message : "Enregistrement impossible." };
+    return fail("saveFailed", error);
   }
 
   revalidatePublic();

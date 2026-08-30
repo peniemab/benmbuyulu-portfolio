@@ -1,7 +1,8 @@
-﻿"use server";
+"use server";
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getAtelierCopy } from "@/lib/atelier-copy";
 import {
   createSessionToken,
   isStudioPasswordConfigured,
@@ -16,13 +17,14 @@ export async function loginAction(
   _prev: LoginState,
   formData: FormData,
 ): Promise<LoginState> {
+  const copy = await getAtelierCopy();
   if (!isStudioPasswordConfigured()) {
-    return { error: "L’atelier n’est pas encore ouvert. Le mot de passe n’a pas été réglé." };
+    return { error: copy.login.notConfigured };
   }
 
   const password = String(formData.get("password") ?? "");
   if (!passwordMatches(password)) {
-    return { error: "Ce mot de passe n’est pas le bon." };
+    return { error: copy.login.wrongPassword };
   }
 
   const jar = await cookies();

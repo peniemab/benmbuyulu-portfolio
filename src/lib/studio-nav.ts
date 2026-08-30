@@ -1,44 +1,14 @@
-﻿export const SECTIONS = [
+export const SECTIONS = [
+  { id: "accueil" as const, href: "/atelier/accueil", preview: "/" },
+  { id: "oeuvres" as const, href: "/atelier/oeuvres", preview: "/#oeuvres" },
+  { id: "bio" as const, href: "/atelier/bio", preview: "/#bio" },
+  { id: "inSitu" as const, href: "/atelier/in-situ", preview: "/#in-situ" },
   {
-    href: "/atelier/accueil",
-    label: "Accueil",
-    hint: "La grande photo en haut du site",
-    action: "Changer la photo",
-    preview: "/",
-  },
-  {
-    href: "/atelier/oeuvres",
-    label: "Œuvres",
-    hint: "Les photos de la galerie",
-    action: "Voir les œuvres",
-    preview: "/#oeuvres",
-  },
-  {
-    href: "/atelier/bio",
-    label: "Bio",
-    hint: "Votre portrait et votre texte",
-    action: "Changer le portrait ou le texte",
-    preview: "/#bio",
-  },
-  {
-    href: "/atelier/in-situ",
-    label: "In situ",
-    hint: "Vos œuvres dans des lieux",
-    action: "Ajouter une photo de lieu",
-    preview: "/#in-situ",
-  },
-  {
+    id: "publications" as const,
     href: "/atelier/publications",
-    label: "Publications",
-    hint: "Articles, catalogues, presse",
-    action: "Ajouter une publication",
     preview: "/#publications",
   },
-  {
-    href: "/atelier/contact",
-    label: "Contact",
-    hint: "Email et réseaux",
-    action: "Changer l’e-mail ou les liens",
-    preview: "/#contact",
-  },
-] as const;
+  { id: "contact" as const, href: "/atelier/contact", preview: "/#contact" },
+];
+
+export type SectionId = (typeof SECTIONS)[number]["id"];
