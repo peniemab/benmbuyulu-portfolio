@@ -43,7 +43,7 @@ Dernière mise à jour : 2026-08-24
 | Section | État public | Qui gère le contenu |
 |---|---|---|
 | Hero | OK | Ben via `/atelier/accueil` |
-| Œuvres | OK (5 œuvres) | Ben via `/atelier/oeuvres` |
+| Œuvres | OK (9 œuvres) | Ben via `/atelier/oeuvres` |
 | Bio | OK | Ben via `/atelier/bio` (FR + EN optionnel) |
 | In situ | Liste si fiches, sinon placeholder | Ben via `/atelier/in-situ` |
 | Publications | Liste si fiches, sinon placeholder | Ben via `/atelier/publications` |
@@ -60,9 +60,10 @@ Dernière mise à jour : 2026-08-24
 
 ## 6. Roadmap
 
-1. Atelier `/atelier` (hero, œuvres, bio, in situ, publications, contact) — en cours  
+1. Atelier `/atelier` (hero, œuvres, bio, in situ, publications, contact) — fait  
 2. Production : Vercel Blob pour les photos uploadées  
-3. Plus tard : réordonner les œuvres par glisser-déposer  
+3. **Fiche œuvre « Découvrir »** : bouton à côté de chaque œuvre → page / vue détail avec plusieurs photos + dimensions (pas de dimensions sous la grille)  
+4. Plus tard : réordonner les œuvres par glisser-déposer  
 
 ## 7. Contacts officiels (valeurs initiales, éditables dans l’atelier)
 
@@ -74,4 +75,5 @@ Dernière mise à jour : 2026-08-24
 
 - Les **titres d’œuvres**, fiches in situ et publications ont une version **FR** et **EN** ; le site affiche celle qui correspond à la langue active (repli sur l’autre langue si une traduction manque).
 - Les labels UI (filtres, boutons, etc.) suivent la langue active du visiteur.
+- Les **dimensions** sont en base (`Artwork.dimensions`) mais **pas affichées sous la grille** : elles apparaîtront dans la fiche « Découvrir » (plusieurs photos + métadonnées).
 - Ce fichier se met à jour quand une décision change.
