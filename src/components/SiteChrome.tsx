@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionaries/fr";
 import type { Locale } from "@/i18n/config";
 import { SiteMenu } from "@/components/SiteMenu";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
+import { goToSection } from "@/lib/soft-scroll";
 
 type Props = {
   labels: Dictionary;
@@ -70,8 +72,11 @@ export function SiteChrome({ labels, locale, instagramUrl, facebookUrl }: Props)
             : "bg-surface/95 border-b border-outline-variant backdrop-blur-sm"
         }`}
       >
-        <a
-          href="#top"
+        <Link
+          href="/#top"
+          onClick={(event) => {
+            if (goToSection("#top")) event.preventDefault();
+          }}
           className={`font-headline-sm text-[1.05rem] text-primary tracking-tighter uppercase transition-all duration-500 ease-out ${
             open
               ? "pointer-events-none translate-y-12 opacity-0"
@@ -79,7 +84,7 @@ export function SiteChrome({ labels, locale, instagramUrl, facebookUrl }: Props)
           }`}
         >
           {labels.brand}
-        </a>
+        </Link>
 
         <div className="relative z-50 flex items-center gap-1">
           <LocaleSwitcher

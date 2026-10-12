@@ -16,12 +16,22 @@ export default async function EditArtworkPage({
   const { id } = await params;
   const [copy, artwork] = await Promise.all([
     getAtelierCopy(),
-    prisma.artwork.findUnique({ where: { id } }),
+    prisma.artwork.findUnique({
+      where: { id },
+      include: {
+        photos: { orderBy: { sortOrder: "asc" }, select: { id: true, imageUrl: true } },
+      },
+    }),
   ]);
   if (!artwork) notFound();
 
   return (
-    <StudioSection title={artwork.title} help={copy.artworks.editHelp}>
+    <StudioSection
+      title={artwork.title}
+      help={copy.artworks.editHelp}
+      previewHref={artwork.published ? `/oeuvres/${artwork.slug}` : undefined}
+      previewLabel={copy.seeOnSite}
+    >
       <ArtworkForm
         copy={copy}
         artwork={{
@@ -31,6 +41,10 @@ export default async function EditArtworkPage({
           year: artwork.year,
           category: artwork.category,
           imageUrl: artwork.imageUrl,
+          dimensions: artwork.dimensions ?? "",
+          description: artwork.description ?? "",
+          descriptionEn: artwork.descriptionEn,
+          photos: artwork.photos,
           published: artwork.published,
         }}
       />

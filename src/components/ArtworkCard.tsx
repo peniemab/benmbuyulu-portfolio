@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ArtworkCardData } from "@/lib/artworks";
 import type { Dictionary } from "@/i18n/dictionaries/fr";
 
@@ -29,8 +30,11 @@ export function ArtworkCard({ artwork, labels, className = "" }: ArtworkCardProp
 
   return (
     <article className={`group col-span-1 flex flex-col items-center ${spanClass} ${className}`}>
-      <div
-        className="relative w-full overflow-hidden"
+      <Link
+        href={`/oeuvres/${artwork.slug}`}
+        tabIndex={-1}
+        aria-hidden
+        className="relative block w-full overflow-hidden"
         style={{ aspectRatio: ratio }}
       >
         <Image
@@ -42,7 +46,7 @@ export function ArtworkCard({ artwork, labels, className = "" }: ArtworkCardProp
             artwork.stretch ? "object-cover" : "object-contain"
           }`}
         />
-      </div>
+      </Link>
       <div className="mt-4 w-full text-center">
         <h3 className="font-headline-sm text-headline-sm text-primary">
           {artwork.title}
@@ -54,6 +58,13 @@ export function ArtworkCard({ artwork, labels, className = "" }: ArtworkCardProp
         <p className="mt-1 font-body-md text-body-md text-on-surface-variant">
           {mediumLabel}
         </p>
+        <Link
+          href={`/oeuvres/${artwork.slug}`}
+          className="mt-3 inline-block border-b border-primary pb-0.5 font-label-caps text-label-caps text-primary transition-opacity duration-300 hover:opacity-60"
+        >
+          {labels.discover}
+          <span className="sr-only">: {artwork.title}</span>
+        </Link>
       </div>
     </article>
   );

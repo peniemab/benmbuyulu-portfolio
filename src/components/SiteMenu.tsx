@@ -1,10 +1,11 @@
 "use client";
 
 import { useId } from "react";
+import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionaries/fr";
 import type { Locale } from "@/i18n/config";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
-import { softScrollToHash } from "@/lib/soft-scroll";
+import { goToSection } from "@/lib/soft-scroll";
 
 export const NAV_ITEMS = [
   { href: "#oeuvres", key: "works" as const },
@@ -123,29 +124,25 @@ export function SiteMenu({
   return (
     <div className="flex h-full min-h-0 flex-col justify-between py-1">
       {showBrand && (
-        <a
-          href="#top"
+        <Link
+          href="/#top"
           onClick={(event) => {
-            event.preventDefault();
-            softScrollToHash("#top");
-            window.history.pushState(null, "", "#top");
+            if (goToSection("#top")) event.preventDefault();
             onNavigate?.();
           }}
           className="shrink-0 font-headline-sm text-[1.35rem] md:text-[1.5rem] text-primary tracking-tighter leading-tight uppercase"
         >
           {labels.brand}
-        </a>
+        </Link>
       )}
 
       <nav className="flex shrink-0 flex-col gap-2.5" aria-label="Main">
         {NAV_ITEMS.map(({ href, key }) => (
           <a
             key={key}
-            href={href}
+            href={`/${href}`}
             onClick={(event) => {
-              event.preventDefault();
-              softScrollToHash(href);
-              window.history.pushState(null, "", href);
+              if (goToSection(href)) event.preventDefault();
               onNavigate?.();
             }}
             className="font-body-md text-[15px] leading-snug text-on-surface-variant hover:text-primary transition-colors duration-300"

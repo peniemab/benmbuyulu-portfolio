@@ -58,3 +58,17 @@ export function softScrollToHash(
 
   requestAnimationFrame(step);
 }
+
+/**
+ * Menu links: soft-scroll when the section is on this page and return true.
+ * Returns false otherwise (e.g. on an artwork page), so the link's own
+ * `/#section` href takes the visitor back to the home page.
+ */
+export function goToSection(hash: string): boolean {
+  if (typeof window === "undefined") return false;
+  const id = hash.startsWith("#") ? hash.slice(1) : hash;
+  if (!document.getElementById(id)) return false;
+  softScrollToHash(hash);
+  window.history.pushState(null, "", hash);
+  return true;
+}

@@ -2,7 +2,7 @@
 
 Document vivant. À mettre à jour après chaque décision produit / technique.
 
-Dernière mise à jour : 2026-08-24
+Dernière mise à jour : 2026-10-12
 
 ---
 
@@ -29,6 +29,8 @@ Dernière mise à jour : 2026-08-24
 | Langue atelier | **FR / EN**, même cookie que le site (EN par défaut) | 2026-08-24 |
 | Photos uploadées | Local `public/uploads` ; Vercel Blob si `BLOB_READ_WRITE_TOKEN` | 2026-08-24 |
 | Expositions | Abandonné ; remplacé par **In situ** | 2026-08-21 |
+| Fiche œuvre | Page `/oeuvres/[slug]` (lien « Découvrir » sous chaque œuvre) | 2026-10-12 |
+| Photos supplémentaires | Envoyées une par une, réduites dans le navigateur (limite Vercel 4,5 Mo) | 2026-10-12 |
 
 ## 3. Stack
 
@@ -62,7 +64,7 @@ Dernière mise à jour : 2026-08-24
 
 1. Atelier `/atelier` (hero, œuvres, bio, in situ, publications, contact) — fait  
 2. Production : Vercel Blob pour les photos uploadées  
-3. **Fiche œuvre « Découvrir »** : bouton à côté de chaque œuvre → page / vue détail avec plusieurs photos + dimensions (pas de dimensions sous la grille)  
+3. Fiche œuvre « Découvrir » : `/oeuvres/[slug]`, plusieurs photos, dimensions, description FR / EN — fait  
 4. Plus tard : réordonner les œuvres par glisser-déposer  
 
 ## 7. Contacts officiels (valeurs initiales, éditables dans l’atelier)
@@ -75,5 +77,5 @@ Dernière mise à jour : 2026-08-24
 
 - Les **titres d’œuvres**, fiches in situ et publications ont une version **FR** et **EN** ; le site affiche celle qui correspond à la langue active (repli sur l’autre langue si une traduction manque).
 - Les labels UI (filtres, boutons, etc.) suivent la langue active du visiteur.
-- Les **dimensions** sont en base (`Artwork.dimensions`) mais **pas affichées sous la grille** : elles apparaîtront dans la fiche « Découvrir » (plusieurs photos + métadonnées).
+- Les **dimensions** ne sont **pas affichées sous la grille** : uniquement dans la fiche « Découvrir », avec les autres photos (`ArtworkPhoto`) et la description (FR + EN, repli sur l’autre langue).
 - Ce fichier se met à jour quand une décision change.

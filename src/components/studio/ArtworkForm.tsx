@@ -8,6 +8,7 @@ import {
 } from "@/app/atelier/(espace)/actions";
 import { CategoryPicker } from "@/components/studio/CategoryPicker";
 import { DeleteButton } from "@/components/studio/DeleteButton";
+import { MorePhotosField } from "@/components/studio/MorePhotosField";
 import { PhotoField } from "@/components/studio/PhotoField";
 import { SaveBar } from "@/components/studio/SaveBar";
 import { VisibleToggle } from "@/components/studio/VisibleToggle";
@@ -21,6 +22,10 @@ type ArtworkValues = {
   year: number;
   category: "PAINTING" | "SCULPTURE";
   imageUrl?: string;
+  dimensions: string;
+  description: string;
+  descriptionEn: string;
+  photos: { id: string; imageUrl: string }[];
   published: boolean;
 };
 
@@ -46,6 +51,9 @@ export function ArtworkForm({
         required={isNew}
         copy={copy.photo}
       />
+      {artwork?.id ? (
+        <MorePhotosField artworkId={artwork.id} photos={artwork.photos} copy={copy} />
+      ) : null}
       <AtelierField
         name="title"
         label={copy.common.titleFr}
@@ -66,6 +74,23 @@ export function ArtworkForm({
           defaultValue={String(artwork?.year ?? new Date().getFullYear())}
         />
       </div>
+      <AtelierField
+        name="dimensions"
+        label={copy.artworks.dimensions}
+        defaultValue={artwork?.dimensions ?? ""}
+      />
+      <AtelierField
+        name="description"
+        label={copy.artworks.descriptionFr}
+        multiline
+        defaultValue={artwork?.description ?? ""}
+      />
+      <AtelierField
+        name="descriptionEn"
+        label={copy.artworks.descriptionEn}
+        multiline
+        defaultValue={artwork?.descriptionEn ?? ""}
+      />
       <CategoryPicker defaultValue={artwork?.category} copy={copy.category} />
       <VisibleToggle defaultChecked={artwork?.published ?? true} copy={copy.visibility} />
       <SaveBar

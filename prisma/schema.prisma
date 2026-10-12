@@ -24,28 +24,46 @@ model User {
 }
 
 model Artwork {
-  id          String   @id @default(cuid())
-  title       String
-  titleEn     String   @default("")
-  slug        String   @unique
-  category    Category
-  medium      String
-  year        Int
-  dimensions  String?
-  imageUrl    String
-  description String?
-  colSpan     Int      @default(4)
-  aspectRatio String   @default("1/1")
-  stretch     Boolean  @default(false)
-  published   Boolean  @default(true)
-  sortOrder   Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String         @id @default(cuid())
+  title         String
+  titleEn       String         @default("")
+  slug          String         @unique
+  category      Category
+  medium        String
+  year          Int
+  dimensions    String?
+  imageUrl      String
+  description   String?
+  descriptionEn String         @default("")
+  colSpan       Int            @default(4)
+  aspectRatio   String         @default("1/1")
+  stretch       Boolean        @default(false)
+  published     Boolean        @default(true)
+  sortOrder     Int            @default(0)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  photos        ArtworkPhoto[]
 
   @@index([published, sortOrder])
 }
 
-/** Singleton: hero, bio, portrait, contact — edited in /studio */
+/**
+ * Extra photos shown on the artwork's "Discover" page (details, other angles).
+ */
+model ArtworkPhoto {
+  id        String   @id @default(cuid())
+  artworkId String
+  artwork   Artwork  @relation(fields: [artworkId], references: [id], onDelete: Cascade)
+  imageUrl  String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([artworkId, sortOrder])
+}
+
+/**
+ * Singleton: hero, bio, portrait, contact — edited in /studio
+ */
 model SiteContent {
   id             String @id @default("main")
   heroImageUrl   String

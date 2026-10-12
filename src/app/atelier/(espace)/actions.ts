@@ -165,6 +165,9 @@ export async function saveArtworkAction(
           category,
           medium: category === "SCULPTURE" ? "Sculpture" : "Peinture",
           imageUrl,
+          dimensions: text(formData, "dimensions") || null,
+          description: text(formData, "description") || null,
+          descriptionEn: text(formData, "descriptionEn"),
           published: isVisible(formData),
         },
       });
@@ -187,6 +190,9 @@ export async function saveArtworkAction(
         medium: category === "SCULPTURE" ? "Sculpture" : "Peinture",
         year,
         imageUrl,
+        dimensions: text(formData, "dimensions") || null,
+        description: text(formData, "description") || null,
+        descriptionEn: text(formData, "descriptionEn"),
         published: isVisible(formData),
         sortOrder: (last?.sortOrder ?? 0) + 1,
         colSpan: 6,
@@ -208,6 +214,43 @@ export async function deleteArtworkAction(formData: FormData) {
   await prisma.artwork.delete({ where: { id } }).catch(() => undefined);
   revalidatePublic();
   redirect("/atelier/oeuvres");
+}
+
+/** One extra photo per call, so each request stays small (Vercel body limit). */
+export async function addArtworkPhotoAction(
+  artworkId: string,
+  formData: FormData,
+): Promise<FormState> {
+  await requireStudio();
+  const photo = formData.get("photo");
+  if (!(photo instanceof File) || photo.size === 0) return fail("photoRequired");
+  try {
+    const artwork = await prisma.artwork.findUnique({ where: { id: artworkId } });
+    if (!artwork) return fail("artworkMissing");
+    const imageUrl = await saveImageFile(photo, "artworks");
+    const last = await prisma.artworkPhoto.findFirst({
+      where: { artworkId },
+      orderBy: { sortOrder: "desc" },
+    });
+    await prisma.artworkPhoto.create({
+      data: { artworkId, imageUrl, sortOrder: (last?.sortOrder ?? 0) + 1 },
+    });
+  } catch (error) {
+    return fail("saveFailed", error);
+  }
+  revalidatePublic();
+  return { ok: true };
+}
+
+export async function removeArtworkPhotoAction(photoId: string): Promise<FormState> {
+  await requireStudio();
+  try {
+    await prisma.artworkPhoto.delete({ where: { id: photoId } });
+  } catch (error) {
+    return fail("saveFailed", error);
+  }
+  revalidatePublic();
+  return { ok: true };
 }
 
 export async function saveInSituAction(
