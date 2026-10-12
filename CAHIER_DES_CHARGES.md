@@ -11,7 +11,7 @@ Dernière mise à jour : 2026-10-12
 - Site web public (`/`) : le portfolio, pour tout le monde.
 - **Atelier** (`/atelier`) : l’espace privé de Ben (PWA installable), bilingue FR / EN, pensé pour un non-dev.
 - Une seule page publique scrollable : Hero → Œuvres → Bio → In situ → Publications → Contact.
-- Pas de multi-tenant / SaaS pour le moment (reporté). **Objectif à terme : SaaS de portfolios pour artistes** (un espace par artiste). Le code d’installation deviendra celui du super-admin de la plateforme, les invitations serviront à inviter dans l’espace d’un artiste.
+- **Site privé de Ben**, mono-artiste, avec son propre domaine. Le SaaS de portfolios pour artistes (**Mon Atelier**, monatelier.com) est un **projet séparé** (`F:\dev_pro\mon_atelier`), parti de ce code, avec sa propre base et son propre déploiement.
 
 ## 2. Décisions actives
 
