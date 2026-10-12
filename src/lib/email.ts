@@ -28,6 +28,54 @@ export async function sendPasswordResetEmail(
     return;
   }
 
+  await sendWithResend(apiKey, { from, to, subject, text });
+}
+
+export function invitationUrl(token: string): string {
+  return `${appOrigin()}/atelier/inscription?invitation=${encodeURIComponent(token)}`;
+}
+
+/** Returns false when no e-mail service is configured (the link is then shared by hand). */
+export async function sendInvitationEmail(
+  to: string,
+  token: string,
+  inviterName: string,
+  days: number,
+): Promise<boolean> {
+  const url = invitationUrl(token);
+  const from = process.env.EMAIL_FROM ?? "Atelier <onboarding@resend.dev>";
+  const apiKey = process.env.RESEND_API_KEY;
+
+  const subject = `${inviterName} vous invite dans son atelier / invites you to their atelier`;
+  const text = [
+    "Bonjour,",
+    "",
+    `${inviterName} vous invite à créer votre compte pour son atelier.`,
+    `Ouvrez ce lien (valable ${days} jours) :`,
+    url,
+    "",
+    "---",
+    "",
+    "Hello,",
+    "",
+    `${inviterName} invites you to create your account for their atelier.`,
+    `Open this link (valid for ${days} days):`,
+    url,
+  ].join("\n");
+
+  if (!apiKey) {
+    console.info("[atelier] Invitation link (no RESEND_API_KEY):\n", url);
+    return false;
+  }
+
+  await sendWithResend(apiKey, { from, to, subject, text });
+  return true;
+}
+
+async function sendWithResend(
+  apiKey: string,
+  { from, to, subject, text }: { from: string; to: string; subject: string; text: string },
+): Promise<void> {
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -40,6 +88,6 @@ export async function sendPasswordResetEmail(
   if (!response.ok) {
     const body = await response.text();
     console.error("[atelier] Resend error:", response.status, body);
-    throw new Error("Could not send reset email.");
+    throw new Error("Could not send email.");
   }
 }

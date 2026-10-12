@@ -118,6 +118,19 @@ export default async function StudioHomePage() {
           );
         })}
       </ul>
+
+      <Link
+        href="/atelier/acces"
+        className="mt-12 flex items-center justify-between gap-4 border-t border-outline-variant pt-6 text-primary transition-opacity duration-300 hover:opacity-70"
+      >
+        <span>
+          <span className="block font-headline-sm text-[1.15rem]">{copy.access.label}</span>
+          <span className="mt-1 block font-body-md text-[0.95rem] text-on-surface-variant">
+            {copy.access.invite}
+          </span>
+        </span>
+        <span aria-hidden className="font-headline-sm text-[1.25rem]">›</span>
+      </Link>
     </div>
   );
 }

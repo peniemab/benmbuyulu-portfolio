@@ -58,6 +58,9 @@ export function sessionCookieOptions() {
   };
 }
 
-export function hashResetToken(token: string): string {
+/** One-way hash for tokens sent by e-mail (password reset, invitations). */
+export function hashToken(token: string): string {
   return createHmac("sha256", authSecret()).update(token).digest("hex");
 }
+
+export const hashResetToken = hashToken;

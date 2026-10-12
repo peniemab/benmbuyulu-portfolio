@@ -4,7 +4,7 @@ import { AuthShell } from "@/components/studio/AuthShell";
 import { getAtelierCopy } from "@/lib/atelier-copy";
 import { getDictionary, getLocale } from "@/i18n/get-dictionary";
 import { redirectIfAuthed } from "@/app/atelier/actions";
-import { isSignupAllowed } from "@/lib/user";
+import { isFirstAccountSetup } from "@/lib/user";
 
 export const metadata: Metadata = {
   title: "Atelier",
@@ -23,7 +23,7 @@ export default async function AtelierLoginPage({ searchParams }: Props) {
     getAtelierCopy(),
     getDictionary(),
     getLocale(),
-    isSignupAllowed(),
+    isFirstAccountSetup(),
   ]);
 
   return (

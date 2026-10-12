@@ -6,10 +6,14 @@ import { getAtelierCopy } from "@/lib/atelier-copy";
 import { sendPasswordResetEmail } from "@/lib/email";
 import { setSession } from "@/lib/studio-guard";
 import {
+  checkSetupCode,
   createUser,
+  findValidInvitation,
   getUserByEmail,
-  isSignupAllowed,
+  isFirstAccountSetup,
+  isSetupCodeConfigured,
   isValidEmail,
+  markInvitationAccepted,
   normalizeEmail,
   resetPasswordWithToken,
   setPasswordResetToken,
@@ -22,14 +26,28 @@ export async function signupAction(
   formData: FormData,
 ): Promise<AuthFormState> {
   const copy = await getAtelierCopy();
-  if (!(await isSignupAllowed())) {
-    return { error: copy.auth.signupClosed };
-  }
-
+  const invitationToken = String(formData.get("invitation") ?? "");
   const name = String(formData.get("name") ?? "").trim();
-  const email = normalizeEmail(String(formData.get("email") ?? ""));
   const password = String(formData.get("password") ?? "");
   const confirm = String(formData.get("confirmPassword") ?? "");
+
+  // Two ways in, never a public sign-up: an invitation link, or the setup code
+  // for the very first account.
+  let email: string;
+  let invitationId: string | null = null;
+  if (invitationToken) {
+    const invitation = await findValidInvitation(invitationToken);
+    if (!invitation) return { error: copy.auth.invitationInvalid };
+    email = invitation.email;
+    invitationId = invitation.id;
+  } else {
+    if (!(await isFirstAccountSetup())) return { error: copy.auth.signupClosed };
+    if (!isSetupCodeConfigured()) return { error: copy.auth.setupNotConfigured };
+    if (!checkSetupCode(String(formData.get("setupCode") ?? ""))) {
+      return { error: copy.auth.setupCodeWrong };
+    }
+    email = normalizeEmail(String(formData.get("email") ?? ""));
+  }
 
   if (!name || !email || !password) {
     return { error: copy.errors.saveFailed };
@@ -50,6 +68,7 @@ export async function signupAction(
     return { error: copy.errors.saveFailed };
   }
 
+  if (invitationId) await markInvitationAccepted(invitationId);
   await setSession(result.id);
   redirect("/atelier");
 }

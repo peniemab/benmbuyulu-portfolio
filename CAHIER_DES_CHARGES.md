@@ -11,7 +11,7 @@ Dernière mise à jour : 2026-10-12
 - Site web public (`/`) : le portfolio, pour tout le monde.
 - **Atelier** (`/atelier`) : l’espace privé de Ben (PWA installable), bilingue FR / EN, pensé pour un non-dev.
 - Une seule page publique scrollable : Hero → Œuvres → Bio → In situ → Publications → Contact.
-- Pas de multi-tenant / SaaS pour le moment (reporté).
+- Pas de multi-tenant / SaaS pour le moment (reporté). **Objectif à terme : SaaS de portfolios pour artistes** (un espace par artiste). Le code d’installation deviendra celui du super-admin de la plateforme, les invitations serviront à inviter dans l’espace d’un artiste.
 
 ## 2. Décisions actives
 
@@ -26,6 +26,7 @@ Dernière mise à jour : 2026-10-12
 | `/atelier` | **Atelier de Ben** (privé), pas une copie publique du site | 2026-08-24 |
 | Install sur le site `/` | **Non** : pas de manifest sur le site web | 2026-08-24 |
 | Auth atelier | Compte e-mail + mot de passe, reset par e-mail | 2026-08-30 |
+| Inscription atelier | **Pas d’inscription publique** : 1er compte avec le code `ATELIER_SETUP_CODE`, puis uniquement sur **invitation** (modèle Odoo) | 2026-10-12 |
 | Langue atelier | **FR / EN**, même cookie que le site (EN par défaut) | 2026-08-24 |
 | Photos uploadées | Local `public/uploads` ; Vercel Blob si `BLOB_READ_WRITE_TOKEN` | 2026-08-24 |
 | Expositions | Abandonné ; remplacé par **In situ** | 2026-08-21 |
@@ -59,7 +60,8 @@ Dernière mise à jour : 2026-10-12
 - Accueil : cartes visuelles des sections du site.
 - Chaque section : changer la photo, changer le texte, montrer / cacher.
 - Pas de jargon.
-- Compte : `/atelier/inscription` (premier compte, puis `ALLOW_SIGNUP=false`), `/atelier/connexion`, reset via `/atelier/mot-de-passe-oublie`.
+- Compte : `/atelier/inscription` (premier compte avec le code d’installation, ou lien d’invitation), `/atelier/connexion`, reset via `/atelier/mot-de-passe-oublie`.
+- Accès : `/atelier/acces` liste les comptes, envoie des invitations (7 jours, e-mail ou lien à copier) et permet de les annuler.
 
 ## 6. Roadmap
 

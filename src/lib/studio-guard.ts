@@ -29,6 +29,7 @@ export async function hasStudioSession(): Promise<boolean> {
 
 export async function requireStudio(): Promise<void> {
   const users = await countUsers();
+  // null = database unreachable: never send visitors to the sign-up page then.
   if (users === 0) {
     redirect("/atelier/inscription");
   }

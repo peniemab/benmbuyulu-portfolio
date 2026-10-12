@@ -1,6 +1,9 @@
+import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import { prisma } from "@/lib/prisma";
 import { hashPassword, isStrongEnoughPassword, verifyPassword } from "@/lib/password";
-import { hashResetToken } from "@/lib/session";
+import { hashResetToken, hashToken } from "@/lib/session";
+
+export const INVITATION_DAYS = 7;
 
 export type UserRow = {
   id: string;
@@ -8,20 +11,33 @@ export type UserRow = {
   name: string;
 };
 
-export async function countUsers(): Promise<number> {
+/** null when the database cannot be reached: callers must then fail closed. */
+export async function countUsers(): Promise<number | null> {
   try {
-    if (typeof prisma.user?.count !== "function") return 0;
     return await prisma.user.count();
   } catch {
-    return 0;
+    return null;
   }
 }
 
-/** First account always allowed; then only if ALLOW_SIGNUP=true. */
-export async function isSignupAllowed(): Promise<boolean> {
-  if (process.env.ALLOW_SIGNUP === "false") return false;
-  if (process.env.ALLOW_SIGNUP === "true") return true;
+/**
+ * No public sign-up. The very first account needs the setup code
+ * (ATELIER_SETUP_CODE); every other account needs an invitation.
+ */
+export async function isFirstAccountSetup(): Promise<boolean> {
   return (await countUsers()) === 0;
+}
+
+export function isSetupCodeConfigured(): boolean {
+  return Boolean(process.env.ATELIER_SETUP_CODE?.trim());
+}
+
+export function checkSetupCode(code: string): boolean {
+  const expected = process.env.ATELIER_SETUP_CODE?.trim();
+  if (!expected) return false;
+  const a = createHash("sha256").update(code.trim()).digest();
+  const b = createHash("sha256").update(expected).digest();
+  return timingSafeEqual(a, b);
 }
 
 export async function getUserByEmail(email: string) {
@@ -111,4 +127,71 @@ export function normalizeEmail(value: string): string {
 
 export function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+export type PendingInvitation = {
+  id: string;
+  email: string;
+  expiresAt: Date;
+  createdAt: Date;
+};
+
+export async function createInvitation(
+  email: string,
+  invitedById: string,
+): Promise<{ token: string } | { error: "emailTaken" }> {
+  const normalized = normalizeEmail(email);
+  if (await getUserByEmail(normalized)) return { error: "emailTaken" };
+
+  const token = randomBytes(32).toString("hex");
+  await prisma.$transaction([
+    prisma.invitation.deleteMany({ where: { email: normalized, acceptedAt: null } }),
+    prisma.invitation.create({
+      data: {
+        email: normalized,
+        tokenHash: hashToken(token),
+        invitedById,
+        expiresAt: new Date(Date.now() + INVITATION_DAYS * 24 * 60 * 60 * 1000),
+      },
+    }),
+  ]);
+  return { token };
+}
+
+export async function findValidInvitation(token: string) {
+  if (!token) return null;
+  return prisma.invitation.findFirst({
+    where: {
+      tokenHash: hashToken(token),
+      acceptedAt: null,
+      expiresAt: { gt: new Date() },
+    },
+    select: { id: true, email: true },
+  });
+}
+
+export async function listPendingInvitations(): Promise<PendingInvitation[]> {
+  return prisma.invitation.findMany({
+    where: { acceptedAt: null, expiresAt: { gt: new Date() } },
+    orderBy: { createdAt: "desc" },
+    select: { id: true, email: true, expiresAt: true, createdAt: true },
+  });
+}
+
+export async function revokeInvitation(id: string) {
+  await prisma.invitation.deleteMany({ where: { id, acceptedAt: null } });
+}
+
+export async function markInvitationAccepted(id: string) {
+  await prisma.invitation.update({
+    where: { id },
+    data: { acceptedAt: new Date() },
+  });
+}
+
+export async function listUsers(): Promise<(UserRow & { createdAt: Date })[]> {
+  return prisma.user.findMany({
+    orderBy: { createdAt: "asc" },
+    select: { id: true, email: true, name: true, createdAt: true },
+  });
 }

@@ -13,14 +13,31 @@ enum Category {
 }
 
 model User {
-  id                String    @id @default(cuid())
-  email             String    @unique
+  id                String       @id @default(cuid())
+  email             String       @unique
   name              String
   passwordHash      String
   resetTokenHash    String?
   resetTokenExpires DateTime?
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  invitationsSent   Invitation[]
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+}
+
+/**
+ * Invitation link to create an atelier account (no public sign-up).
+ */
+model Invitation {
+  id          String    @id @default(cuid())
+  email       String
+  tokenHash   String    @unique
+  invitedById String
+  invitedBy   User      @relation(fields: [invitedById], references: [id], onDelete: Cascade)
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([email])
 }
 
 model Artwork {

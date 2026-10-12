@@ -100,6 +100,16 @@ export function StudioChrome({
               );
             })}
           </nav>
+          <Link
+            href="/atelier/acces"
+            className={`border-t border-outline-variant px-5 py-4 font-body-md text-[0.95rem] transition-colors ${
+              pathname === "/atelier/acces"
+                ? "text-mustard"
+                : "text-on-surface-variant hover:text-primary"
+            }`}
+          >
+            {copy.access.label}
+          </Link>
         </aside>
 
         <div className="min-w-0 flex-1 px-margin-mobile pb-28 pt-6 md:px-12 md:pt-10">

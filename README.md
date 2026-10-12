@@ -15,13 +15,15 @@ Ouvre [http://localhost:3000](http://localhost:3000) — galerie avec filtres To
 
 Atelier (édition) : [http://localhost:3000/atelier](http://localhost:3000/atelier)
 
-1. Créer un compte : `/atelier/inscription` (Ben, une seule fois)
-2. Se connecter : `/atelier/connexion`
-3. Mot de passe oublié : `/atelier/mot-de-passe-oublie` (lien affiché dans le terminal si pas de `RESEND_API_KEY`)
+Pas d'inscription publique (comme Odoo en mode « sur invitation ») :
+
+1. Premier compte : `/atelier/inscription`, avec le **code d'installation** (`ATELIER_SETUP_CODE`), à donner seulement à Ben
+2. Comptes suivants : uniquement par **invitation**, depuis `/atelier/acces` (lien valable 7 jours, envoyé par e-mail ou à copier)
+3. Se connecter : `/atelier/connexion`
+4. Mot de passe oublié : `/atelier/mot-de-passe-oublie` (lien affiché dans le terminal si pas de `RESEND_API_KEY`)
 
 ```bash
 # .env
 AUTH_SECRET="longue-chaine-aleatoire"
-# Après l'inscription de Ben :
-ALLOW_SIGNUP="false"
+ATELIER_SETUP_CODE="autre-longue-chaine-aleatoire"
 ```
