@@ -30,6 +30,7 @@ Dernière mise à jour : 2026-10-12
 | Photos uploadées | Local `public/uploads` ; Vercel Blob si `BLOB_READ_WRITE_TOKEN` | 2026-08-24 |
 | Expositions | Abandonné ; remplacé par **In situ** | 2026-08-21 |
 | Fiche œuvre | Page `/oeuvres/[slug]` (lien « Découvrir » sous chaque œuvre) | 2026-10-12 |
+| Ordre des œuvres | Mode « Changer l’ordre » : glisser-déposer (`@dnd-kit`, appui long sur téléphone) + flèches, puis « Enregistrer l’ordre » | 2026-10-12 |
 | Photos supplémentaires | Envoyées une par une, réduites dans le navigateur (limite Vercel 4,5 Mo) | 2026-10-12 |
 
 ## 3. Stack
@@ -65,7 +66,7 @@ Dernière mise à jour : 2026-10-12
 1. Atelier `/atelier` (hero, œuvres, bio, in situ, publications, contact) — fait  
 2. Production : Vercel Blob pour les photos uploadées  
 3. Fiche œuvre « Découvrir » : `/oeuvres/[slug]`, plusieurs photos, dimensions, description FR / EN — fait  
-4. Plus tard : réordonner les œuvres par glisser-déposer  
+4. Réordonner les œuvres par glisser-déposer (+ flèches) dans `/atelier/oeuvres` — fait  
 
 ## 7. Contacts officiels (valeurs initiales, éditables dans l’atelier)
 

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { ArtworkOrderGrid } from "@/components/studio/ArtworkOrderGrid";
 import { StudioSection } from "@/components/studio/StudioSection";
 import { AtelierButton } from "@/components/studio/ui";
 import { getAtelierCopy } from "@/lib/atelier-copy";
@@ -12,7 +12,7 @@ export default async function StudioArtworksPage() {
   const [copy, artworks] = await Promise.all([
     getAtelierCopy(),
     prisma.artwork.findMany({
-      orderBy: { sortOrder: "asc" },
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
     }),
   ]);
 
@@ -34,38 +34,16 @@ export default async function StudioArtworksPage() {
           </AtelierButton>
         </div>
       ) : (
-        <>
-          <AtelierButton href="/atelier/oeuvres/nouveau">
-            {copy.artworks.add}
-          </AtelierButton>
-          <ul className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3">
-            {artworks.map((artwork) => (
-              <li key={artwork.id}>
-                <Link href={`/atelier/oeuvres/${artwork.id}`} className="group block">
-                  <div className="relative aspect-[3/4] overflow-hidden bg-surface-container">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={artwork.imageUrl}
-                      alt=""
-                      className="size-full object-cover transition-opacity duration-300 group-hover:opacity-90"
-                    />
-                    {!artwork.published ? (
-                      <span className="absolute left-2 top-2 bg-black/80 px-2 py-1 font-label-caps text-[0.65rem] tracking-wide text-white">
-                        {copy.common.hidden}
-                      </span>
-                    ) : null}
-                  </div>
-                  <p className="mt-3 font-headline-sm text-[1.05rem] text-primary">
-                    {artwork.title}
-                  </p>
-                  <p className="mt-0.5 font-body-md text-[0.9rem] text-on-surface-variant">
-                    {artwork.year}
-                  </p>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </>
+        <ArtworkOrderGrid
+          copy={copy}
+          artworks={artworks.map(({ id, title, year, imageUrl, published }) => ({
+            id,
+            title,
+            year,
+            imageUrl,
+            published,
+          }))}
+        />
       )}
     </StudioSection>
   );

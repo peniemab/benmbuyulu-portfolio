@@ -253,6 +253,21 @@ export async function removeArtworkPhotoAction(photoId: string): Promise<FormSta
   return { ok: true };
 }
 
+export async function reorderArtworksAction(ids: string[]): Promise<FormState> {
+  await requireStudio();
+  try {
+    await prisma.$transaction(
+      ids.map((id, index) =>
+        prisma.artwork.update({ where: { id }, data: { sortOrder: index + 1 } }),
+      ),
+    );
+  } catch (error) {
+    return fail("saveFailed", error);
+  }
+  revalidatePublic();
+  return { ok: true };
+}
+
 export async function saveInSituAction(
   _prev: FormState,
   formData: FormData,
