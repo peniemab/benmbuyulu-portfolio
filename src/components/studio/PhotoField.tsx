@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import type { AtelierCopy } from "@/lib/atelier-copy";
 
 type Props = {
@@ -28,10 +28,13 @@ export function PhotoField({
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState(currentUrl ?? "");
+  const [shownUrl, setShownUrl] = useState(currentUrl);
 
-  useEffect(() => {
+  // After a save the page sends the new photo URL: show it instead of the old preview.
+  if (currentUrl !== shownUrl) {
+    setShownUrl(currentUrl);
     setPreview(currentUrl ?? "");
-  }, [currentUrl]);
+  }
 
   const empty = !preview;
   const action = empty ? copy.add : copy.change;

@@ -10,21 +10,24 @@ type BeforeInstallPromptEvent = Event & {
 
 type Props = {
   installLabel: string;
-  installedLabel: string;
 };
 
-export function AtelierInstallButton({ installLabel, installedLabel }: Props) {
+function isStandalone(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(display-mode: standalone)").matches
+  );
+}
+
+export function AtelierInstallButton({ installLabel }: Props) {
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(
     null,
   );
-  const [installed, setInstalled] = useState(false);
+  // The first render shows nothing either way (no install prompt yet), so this cannot cause a hydration mismatch.
+  const [installed, setInstalled] = useState(isStandalone);
 
   useEffect(() => {
-    const standalone = window.matchMedia("(display-mode: standalone)").matches;
-    if (standalone) {
-      setInstalled(true);
-      return;
-    }
+    if (installed) return;
 
     const onPrompt = (event: Event) => {
       event.preventDefault();
@@ -41,7 +44,7 @@ export function AtelierInstallButton({ installLabel, installedLabel }: Props) {
       window.removeEventListener("beforeinstallprompt", onPrompt);
       window.removeEventListener("appinstalled", onInstalled);
     };
-  }, []);
+  }, [installed]);
 
   if (installed) return null;
 
