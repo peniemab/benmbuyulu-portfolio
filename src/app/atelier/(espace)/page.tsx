@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AtelierInstallButton } from "@/components/atelier/AtelierInstallButton";
 import { getAtelierCopy } from "@/lib/atelier-copy";
 import { prisma } from "@/lib/prisma";
 import { getSiteContent } from "@/lib/site-content";
@@ -80,6 +81,9 @@ export default async function StudioHomePage() {
       <p className="mt-3 max-w-xl font-body-lg text-body-lg text-on-surface-variant">
         {copy.home.help}
       </p>
+      <div className="mt-6 empty:hidden">
+        <AtelierInstallButton installLabel={copy.install} />
+      </div>
 
       <ul className="mt-10 grid gap-6 sm:grid-cols-2">
         {SECTIONS.map((section) => {
