@@ -22,10 +22,24 @@ export async function generateMetadata(
   if (!artwork) return { title: dict.meta.title };
   const title = pickLocalized(artwork.title, artwork.titleEn, locale);
   const description = pickLocalized(artwork.description ?? "", artwork.descriptionEn, locale);
+  const pageTitle = `${title} (${artwork.year}) : ${dict.brand}`;
+  const pageDescription = description || dict.meta.description;
+  // The preview image comes from ./opengraph-image.tsx.
   return {
-    title: `${title} (${artwork.year}) : ${dict.brand}`,
-    description: description || dict.meta.description,
-    openGraph: { images: [artwork.imageUrl] },
+    title: pageTitle,
+    description: pageDescription,
+    openGraph: {
+      type: "article",
+      url: `/oeuvres/${slug}`,
+      siteName: dict.brand,
+      title: pageTitle,
+      description: pageDescription,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: pageTitle,
+      description: pageDescription,
+    },
   };
 }
 

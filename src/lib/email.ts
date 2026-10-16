@@ -1,14 +1,10 @@
-function appOrigin(): string {
-  if (process.env.APP_URL) return process.env.APP_URL.replace(/\/$/, "");
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-  return "http://localhost:3000";
-}
+import { siteOrigin } from "@/lib/site-url";
 
 export async function sendPasswordResetEmail(
   to: string,
   token: string,
 ): Promise<void> {
-  const resetUrl = `${appOrigin()}/atelier/reinitialiser-mot-de-passe?token=${encodeURIComponent(token)}`;
+  const resetUrl = `${siteOrigin()}/atelier/reinitialiser-mot-de-passe?token=${encodeURIComponent(token)}`;
   const from = process.env.EMAIL_FROM ?? "Atelier <onboarding@resend.dev>";
   const apiKey = process.env.RESEND_API_KEY;
 
@@ -32,7 +28,7 @@ export async function sendPasswordResetEmail(
 }
 
 export function invitationUrl(token: string): string {
-  return `${appOrigin()}/atelier/inscription?invitation=${encodeURIComponent(token)}`;
+  return `${siteOrigin()}/atelier/inscription?invitation=${encodeURIComponent(token)}`;
 }
 
 /** Returns false when no e-mail service is configured (the link is then shared by hand). */

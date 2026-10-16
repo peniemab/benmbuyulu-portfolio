@@ -6,6 +6,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { getDictionary, getLocale } from "@/i18n/get-dictionary";
+import { siteOrigin } from "@/lib/site-url";
 
 const quicksand = Quicksand({
   variable: "--font-quicksand",
@@ -26,10 +27,26 @@ const eduGuides = Edu_AU_VIC_WA_NT_Guides({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const dict = await getDictionary();
+  const [dict, locale] = await Promise.all([getDictionary(), getLocale()]);
+  // The preview image itself comes from app/opengraph-image.tsx (added by Next).
   return {
+    metadataBase: new URL(siteOrigin()),
     title: dict.meta.title,
     description: dict.meta.description,
+    openGraph: {
+      type: "website",
+      url: "/",
+      siteName: dict.brand,
+      title: dict.meta.title,
+      description: dict.meta.description,
+      locale: locale === "fr" ? "fr_FR" : "en_US",
+      alternateLocale: locale === "fr" ? "en_US" : "fr_FR",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: dict.meta.title,
+      description: dict.meta.description,
+    },
   };
 }
 
