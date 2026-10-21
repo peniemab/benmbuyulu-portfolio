@@ -123,18 +123,27 @@ export default async function StudioHomePage() {
         })}
       </ul>
 
-      <Link
-        href="/atelier/acces"
-        className="mt-12 flex items-center justify-between gap-4 border-t border-outline-variant pt-6 text-primary transition-opacity duration-300 hover:opacity-70"
-      >
-        <span>
-          <span className="block font-headline-sm text-[1.15rem]">{copy.access.label}</span>
-          <span className="mt-1 block font-body-md text-[0.95rem] text-on-surface-variant">
-            {copy.access.invite}
-          </span>
-        </span>
-        <span aria-hidden className="font-headline-sm text-[1.25rem]">›</span>
-      </Link>
+      <ul className="mt-12 divide-y divide-outline-variant border-t border-outline-variant">
+        {[
+          { href: "/atelier/newsletter", label: copy.newsletter.label, hint: copy.newsletter.hint },
+          { href: "/atelier/acces", label: copy.access.label, hint: copy.access.invite },
+        ].map((item) => (
+          <li key={item.href}>
+            <Link
+              href={item.href}
+              className="flex items-center justify-between gap-4 py-5 text-primary transition-opacity duration-300 hover:opacity-70"
+            >
+              <span>
+                <span className="block font-headline-sm text-[1.15rem]">{item.label}</span>
+                <span className="mt-1 block font-body-md text-[0.95rem] text-on-surface-variant">
+                  {item.hint}
+                </span>
+              </span>
+              <span aria-hidden className="font-headline-sm text-[1.25rem]">›</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

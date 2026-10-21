@@ -1,7 +1,7 @@
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
 
-const SCHEMA_ID = "invitations-v1";
+const SCHEMA_ID = "newsletter-v1";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;

@@ -2,7 +2,7 @@
 
 Document vivant. À mettre à jour après chaque décision produit / technique.
 
-Dernière mise à jour : 2026-10-12
+Dernière mise à jour : 2026-10-16
 
 ---
 
@@ -30,6 +30,8 @@ Dernière mise à jour : 2026-10-12
 | Langue atelier | **FR / EN**, même cookie que le site (EN par défaut) | 2026-08-24 |
 | Photos uploadées | Local `public/uploads` ; Vercel Blob si `BLOB_READ_WRITE_TOKEN` | 2026-08-24 |
 | Expositions | Abandonné ; remplacé par **In situ** | 2026-08-21 |
+| Newsletter | Champ du menu branché : adresses en base (`NewsletterSubscriber`), piège anti-spam, liste / copie / export CSV dans `/atelier/newsletter`. Envoi des lettres : plus tard | 2026-10-16 |
+| Aperçu de lien | Carte générée : portrait de la bio (accueil), photo de l’œuvre (« Découvrir »), en JPEG | 2026-10-16 |
 | Fiche œuvre | Page `/oeuvres/[slug]` (lien « Découvrir » sous chaque œuvre) | 2026-10-12 |
 | Ordre des œuvres | Mode « Changer l’ordre » : glisser-déposer (`@dnd-kit`, appui long sur téléphone) + flèches, puis « Enregistrer l’ordre » | 2026-10-12 |
 | Photos supplémentaires | Envoyées une par une, réduites dans le navigateur (limite Vercel 4,5 Mo) | 2026-10-12 |
@@ -61,6 +63,7 @@ Dernière mise à jour : 2026-10-12
 - Chaque section : changer la photo, changer le texte, montrer / cacher.
 - Pas de jargon.
 - Compte : `/atelier/inscription` (premier compte avec le code d’installation, ou lien d’invitation), `/atelier/connexion`, reset via `/atelier/mot-de-passe-oublie`.
+- Newsletter : `/atelier/newsletter` liste les inscrits (date), copie toutes les adresses (à coller en « Cci »), export CSV, retrait d’une adresse.
 - Accès : `/atelier/acces` liste les comptes, envoie des invitations (7 jours, e-mail ou lien à copier) et permet de les annuler.
 
 ## 6. Roadmap

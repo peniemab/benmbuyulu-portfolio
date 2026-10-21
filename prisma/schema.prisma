@@ -139,3 +139,15 @@ model Publication {
 
   @@index([published, sortOrder])
 }
+
+/**
+ * People who left their e-mail in the site menu (newsletter).
+ */
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  locale    String   @default("en")
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}

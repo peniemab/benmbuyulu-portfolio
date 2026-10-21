@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionaries/fr";
 import type { Locale } from "@/i18n/config";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
+import { NewsletterForm } from "@/components/NewsletterForm";
 import { goToSection } from "@/lib/soft-scroll";
 
 export const NAV_ITEMS = [
@@ -163,29 +164,7 @@ export function SiteMenu({
         </div>
       )}
 
-      <form
-        className="flex shrink-0 flex-col gap-2"
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
-      >
-        <p className="font-label-caps text-label-caps text-on-surface-variant">
-          {labels.newsletter.title}
-        </p>
-        <input
-          type="email"
-          name="email"
-          required
-          placeholder={labels.newsletter.placeholder}
-          className="w-full border border-outline-variant bg-surface-container-lowest px-3 py-2 text-[16px] leading-normal font-body-md text-on-surface outline-none focus:border-primary transition-colors duration-300"
-        />
-        <button
-          type="submit"
-          className="self-end w-fit font-label-caps text-label-caps bg-black text-white border border-black px-3.5 py-2 hover:opacity-85 transition-opacity duration-300"
-        >
-          {labels.newsletter.submit}
-        </button>
-      </form>
+      <NewsletterForm labels={labels.newsletter} />
 
       <SocialLinks
         className="shrink-0"
