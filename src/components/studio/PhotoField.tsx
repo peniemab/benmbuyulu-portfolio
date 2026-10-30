@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import type { AtelierCopy } from "@/lib/atelier-copy";
+import { shrinkImage } from "@/lib/shrink-image";
 
 type Props = {
   name?: string;
@@ -51,10 +52,18 @@ export function PhotoField({
         accept="image/jpeg,image/png,image/webp"
         required={required && !currentUrl}
         className="sr-only"
-        onChange={(event) => {
-          const file = event.target.files?.[0];
+        onChange={async (event) => {
+          const input = event.currentTarget;
+          const file = input.files?.[0];
           if (!file) return;
           setPreview(URL.createObjectURL(file));
+          // Send a lighter copy: phone photos go over Vercel's 4.5 MB request limit.
+          const smaller = await shrinkImage(file);
+          if (smaller !== file && typeof DataTransfer !== "undefined") {
+            const files = new DataTransfer();
+            files.items.add(smaller);
+            input.files = files.files;
+          }
         }}
       />
       <button

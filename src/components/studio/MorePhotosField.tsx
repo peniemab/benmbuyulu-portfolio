@@ -8,32 +8,9 @@ import {
 } from "@/app/atelier/(espace)/actions";
 import { AtelierButton } from "@/components/studio/ui";
 import type { AtelierCopy } from "@/lib/atelier-copy";
+import { shrinkImage } from "@/lib/shrink-image";
 
 type Photo = { id: string; imageUrl: string };
-
-const MAX_SIDE = 2400;
-
-/** Phone photos are often 5–10 MB: shrink to a web-friendly JPEG before sending. */
-async function shrinkImage(file: File): Promise<File> {
-  if (file.type === "image/gif") return file;
-  try {
-    const bitmap = await createImageBitmap(file);
-    const scale = Math.min(1, MAX_SIDE / Math.max(bitmap.width, bitmap.height));
-    if (scale === 1 && file.size < 2 * 1024 * 1024) return file;
-    const canvas = document.createElement("canvas");
-    canvas.width = Math.round(bitmap.width * scale);
-    canvas.height = Math.round(bitmap.height * scale);
-    canvas.getContext("2d")?.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-    const blob = await new Promise<Blob | null>((resolve) =>
-      canvas.toBlob(resolve, "image/jpeg", 0.88),
-    );
-    if (!blob) return file;
-    const name = file.name.replace(/\.[^.]+$/, "") + ".jpg";
-    return new File([blob], name, { type: "image/jpeg" });
-  } catch {
-    return file;
-  }
-}
 
 export function MorePhotosField({
   artworkId,

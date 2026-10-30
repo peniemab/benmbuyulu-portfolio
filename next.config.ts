@@ -17,6 +17,18 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // The installed atelier app must always pick up the latest service worker.
+  async headers() {
+    return [
+      {
+        source: "/atelier/sw.js",
+        headers: [
+          { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+          { key: "Service-Worker-Allowed", value: "/atelier/" },
+        ],
+      },
+    ];
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: "12mb",

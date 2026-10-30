@@ -2,7 +2,7 @@
 
 Document vivant. À mettre à jour après chaque décision produit / technique.
 
-Dernière mise à jour : 2026-10-16
+Dernière mise à jour : 2026-10-23
 
 ---
 
@@ -30,6 +30,8 @@ Dernière mise à jour : 2026-10-16
 | Langue atelier | **FR / EN**, même cookie que le site (EN par défaut) | 2026-08-24 |
 | Photos uploadées | Local `public/uploads` ; Vercel Blob si `BLOB_READ_WRITE_TOKEN` | 2026-08-24 |
 | Expositions | Abandonné ; remplacé par **In situ** | 2026-08-21 |
+| App installée (PWA) | Le service worker ne met **jamais** les pages en cache (seulement icônes + manifest) : sinon, après chaque mise en ligne, l’app gardait l’ancienne version et les enregistrements échouaient | 2026-10-23 |
+| Photos envoyées | Toutes réduites dans le navigateur (2400 px, JPEG) avant l’envoi : limite Vercel de 4,5 Mo par requête | 2026-10-23 |
 | Newsletter | Champ du menu branché : adresses en base (`NewsletterSubscriber`), piège anti-spam, liste / copie / export CSV dans `/atelier/newsletter`. Envoi des lettres : plus tard | 2026-10-16 |
 | Aperçu de lien | Carte générée : portrait de la bio (accueil), photo de l’œuvre (« Découvrir »), en JPEG | 2026-10-16 |
 | Fiche œuvre | Page `/oeuvres/[slug]` (lien « Découvrir » sous chaque œuvre) | 2026-10-12 |

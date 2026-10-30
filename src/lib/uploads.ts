@@ -43,6 +43,13 @@ export async function saveImageFile(
     return blob.url;
   }
 
+  // On Vercel the disk is read-only: without Blob storage the photo cannot be kept.
+  if (process.env.VERCEL) {
+    throw new Error(
+      "La photo n’a pas pu être enregistrée : le stockage des photos n’est pas encore activé sur le serveur.",
+    );
+  }
+
   const dir = path.join(process.cwd(), "public", "uploads", folder);
   await mkdir(dir, { recursive: true });
   await writeFile(path.join(dir, filename), bytes);
